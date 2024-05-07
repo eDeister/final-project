@@ -1,0 +1,6 @@
+#.gitignore - this file contains paths which should be
+# excluded from version control
+
+/vendor
+/tmp
+composer.lock
