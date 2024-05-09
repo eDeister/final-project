@@ -2,8 +2,13 @@
   "name": "328_2/final-project",
   "authors": [
     {
-      "name": "Ethan Deister, Eugene Faison",
+      "name": "Ethan Deister",
       "email": "deister.ethan@student.greenriver.edu"
+
+    },
+    {
+      "name": "Eugene Faison",
+      "email": ""
     }
   ],
   "require": {
