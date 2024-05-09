@@ -14,6 +14,15 @@ $f3->route('GET /', function() {
     echo $view->render('views/home.html');
 });
 
+// Route for about page
+$f3->route('GET /views/about', function() {
+
+
+    // Render a view page
+    $view = new Template();
+    echo $view->render('views/about.html');
+});
+
 //Define a route for any particular listing
 $f3->route('GET | POST /listing/@listing', function($f3, $params) {
     //TODO: Query a database using $params['listing'] to
