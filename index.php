@@ -15,7 +15,7 @@ $f3->route('GET /', function() {
 });
 
 //Define a route for any particular listing
-$f3->route('GET /listing/@listing', function($f3, $params) {
+$f3->route('GET | POST /listing/@listing', function($f3, $params) {
     //TODO: Query a database using $params['listing'] to
     // get a listing object and display appropriate data
 
