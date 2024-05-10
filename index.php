@@ -15,7 +15,7 @@ $f3->route('GET /', function() {
 });
 
 // Route for about page
-$f3->route('GET /views/about', function() {
+$f3->route('GET /about', function() {
 
 
     // Render a view page
