@@ -13,6 +13,10 @@ $f3->route('GET /', function() {
     $view = new Template();
     echo $view->render('views/home.html');
 });
+$f3->route('GET /home', function() {
+    $view = new Template();
+    echo $view->render('views/home.html');
+});
 
 // Route for about page
 $f3->route('GET /about', function() {
