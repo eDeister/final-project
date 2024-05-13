@@ -13,22 +13,22 @@ $f3->route('GET /', function() {
     $view = new Template();
     echo $view->render('views/home.html');
 });
-$f3->route('GET /home', function() {
-    $view = new Template();
-    echo $view->render('views/home.html');
-});
 
-// Route for about page
+
+//Define a route for about page
 $f3->route('GET /about', function() {
-
-
-    // Render a view page
     $view = new Template();
     echo $view->render('views/about.html');
 });
 
+
+//Define a route for about page
+$f3->route('GET /listing', function() {
+    $view = new Template();
+    echo $view->render('views/listing.html');
+});
 //Define a route for any particular listing
-$f3->route('GET | POST /listing/@listing', function($f3, $params) {
+$f3->route('GET /listing/@listing', function($f3, $params) {
     //TODO: Query a database using $params['listing'] to
     // get a listing object and display appropriate data
 
