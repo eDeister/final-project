@@ -1,12 +1,20 @@
 {
-  "name": "328_2/final-project",
+  "name": "328-final-project/final-project",
   "authors": [
     {
-      "name": "Ethan Deister, Eugene Faison, Abdul Rahmani",
+      "name": "Ethan Deister",
       "email": "deister.ethan@student.greenriver.edu"
+
+    },
+    {
+      "name": "Eugene Faison",
+      "email": "faison.eugene@student.greenriver.edu"
     }
   ],
   "require": {
     "bcosca/fatfree-core": "dev-master"
+  },
+  "autoload": {
+    "classmap": ["classes/"]
   }
 }
