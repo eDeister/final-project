@@ -14,30 +14,20 @@ $f3->route('GET /', function() {
     echo $view->render('views/home.html');
 });
 
+
 //Define a route for about page
 $f3->route('GET /about', function() {
     $view = new Template();
     echo $view->render('views/about.html');
 });
 
-//Define a route for searching/filtering/sorting listings
-$f3->route('GET|POST /search', function($f3) {
-    //Populate an array of test/example listings
-    $testListings = array(
-        new Listing('instr1','Test name 1', 'Test brand 1', 5, 'Test desc 1', array('spec1' => 'spec1', 'spec2'=>'spec2')),
-        new Listing('instr2','Test name 2', 'Test brand 2', 5, 'Test desc 2', array('spec1' => 'spec1', 'spec2'=>'spec2')),
-        new Listing('instr3','Test name 3', 'Test brand 3', 5, 'Test desc 3', array('spec1' => 'spec1', 'spec2'=>'spec2')),
-        new Listing('instr4','Test name 4', 'Test brand 4', 5, 'Test desc 4', array('spec1' => 'spec1', 'spec2'=>'spec2')),
-    );
-    //Set number of listings per row, and a variable for the listings
-    $f3->set('row',3);
-    $f3->set('listings', $testListings);
 
+//Define a route for about page
+$f3->route('GET /listing', function() {
     $view = new Template();
-    echo $view->render('views/search.html');
+    echo $view->render('views/listing.html');
 });
-
-//Define a route for any particular listing/instrument's page
+//Define a route for any particular listing
 $f3->route('GET /listing/@listing', function($f3, $params) {
     //TODO: Query a database using $params['listing'] to
     // get a listing object and display appropriate data
@@ -45,6 +35,55 @@ $f3->route('GET /listing/@listing', function($f3, $params) {
     $view = new Template();
     echo $view->render('views/listing.html');
 });
+
+
+// Abdul Rahmani commits
+$f3->route('GET /search', function($f3) {
+    $query = $_GET['query'];
+    $filter = $_GET['filter'];
+
+    // TODO: Implement your search logic here
+    // Example: Query the database based on $query and $filter
+
+    $results = []; // This should be the result of your database query
+
+    $f3->set('results', $results);
+    $view = new Template();
+    echo $view->render('views/search_result.html');
+});
+
+$f3->route('GET /cart', function($f3) {
+    // TODO: Implement logic to fetch cart items
+    $cartItems = []; // This should be fetched from session or database
+
+    $f3->set('cartItems', $cartItems);
+    $view = new Template();
+    echo $view->render('views/cart.html');
+});
+
+$f3->route('POST /cart/add', function($f3) {
+    $itemId = $_POST['id'];
+    // TODO: Implement logic to add item to cart
+
+    // Redirect to cart page or previous page
+    $f3->reroute('/cart');
+});
+
+$f3->route('POST /cart/remove', function($f3) {
+    $itemId = $_POST['id'];
+    // TODO: Implement logic to remove item from cart
+
+    // Redirect to cart page or previous page
+    $f3->reroute('/cart');
+});
+
+$f3->route('POST /cart/empty', function($f3) {
+    // TODO: Implement logic to empty the cart
+
+    // Redirect to cart page or previous page
+    $f3->reroute('/cart');
+});
+
 
 //Run fat free
 $f3->run();

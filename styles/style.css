@@ -5,8 +5,6 @@ body, html {
     height: 100%;
     background: url('../images/background-image.jpg') no-repeat center center fixed;
     background-size: cover;
-    font-family: 'Brush Script MT', cursive;
-
 
 
 }
@@ -17,7 +15,6 @@ header {
 
 .navbar {
     padding: 1rem 0;
-    font-family: 'Brush Script MT', cursive;
 }
 
 .navbar-light .navbar-nav .nav-link {
@@ -96,3 +93,98 @@ footer {
 }
 
 
+
+
+
+
+.navbar {
+    background-color: #222;
+    padding: 10px;
+}
+
+.navbar-brand, .nav-link {
+    color: #fff !important;
+}
+
+.navbar-brand:hover, .nav-link:hover {
+    color: #f8f9fa !important;
+}
+
+.form-inline {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.input-group {
+    flex: 1;
+}
+
+.form-control {
+    border-radius: 20px 0 0 20px;
+    padding: 10px;
+    border: 2px solid #fff;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.form-control::placeholder {
+    color: #ccc;
+}
+
+.input-group-append .btn {
+    border-radius: 0 20px 20px 0;
+}
+
+.btn-outline-secondary, .btn-outline-success {
+    color: #fff;
+    border-color: #fff;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.btn-outline-secondary:hover, .btn-outline-success:hover {
+    background-color: #fff;
+    color: #333;
+}
+
+.dropdown-menu {
+    background-color: #333;
+    border: none;
+}
+
+.dropdown-item {
+    color: #ccc;
+}
+
+.dropdown-item:hover {
+    background-color: #444;
+    color: #fff;
+}
+
+#cart-items {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+#cart-items .cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#cart-items .cart-item img {
+    width: 50px;
+    margin-right: 10px;
+}
+
+#cart-items .cart-item button {
+    background: none;
+    border: none;
+    color: #f00;
+    cursor: pointer;
+}
+
+#cart-logo
+{
+    border-radius: 50px;
+}
