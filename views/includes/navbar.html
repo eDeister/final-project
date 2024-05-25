@@ -1,14 +1,13 @@
 <div class="container">
-    <nav class="navbar navbar-expand-lg navbar-light">
-
-        <a class="navbar-brand" href="{{ @BASE }}">Phrygian</a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Phrygian</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="{{ @BASE }}">Home</a>
+                    <a class="nav-link" href="/328/final-project">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="about">About</a>
@@ -17,54 +16,42 @@
                     <a class="nav-link" href="listing">Listing</a>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <form class="form-inline my-2 my-lg-0" id="search-form">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search for instruments..." aria-label="Search" aria-describedby="search-addon" id="search-query">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Filter</button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#" data-filter="all">All</a>
+                            <a class="dropdown-item" href="#" data-filter="brand">Brand</a>
+                            <a class="dropdown-item" href="#" data-filter="name">Name</a>
+                            <a class="dropdown-item" href="#" data-filter="price-asc">Price: Low to High</a>
+                            <a class="dropdown-item" href="#" data-filter="price-desc">Price: High to Low</a>
+                            <a class="dropdown-item" href="#" data-filter="new-arrivals">New Arrivals</a>
+                        </div>
+                        <button class="btn btn-outline-success" type="submit" id="search-button">Search</button>
+                    </div>
+                </div>
             </form>
             <ul class="navbar-nav ml-auto">
-
-                <div class="container-fluid">
-                <a class="navbar-brand" href="#">
-                    <img style="color: white" src="images/cart.jpeg" alt="cart Logo">
-                </a>
-                </div>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="#" id="cart-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="images/cart.png" alt="Cart Logo" style="width: 40px;" id="cart-logo">
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right p-3" aria-labelledby="cart-dropdown" style="background-color: #333;">
+                        <div id="cart-items">
+                            <!-- Cart items will be dynamically added here -->
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item text-center" href="checkout" style="color: #fff;">Checkout</a>
+                        <a class="dropdown-item text-center" href="#" id="empty-cart" style="color: #fff;">Empty Cart</a>
+                    </div>
+                </li>
             </ul>
         </div>
     </nav>
 </div>
 
-<!--&lt;!&ndash; Navbar &ndash;&gt;-->
-<!--<nav class="navbar navbar-expand-lg navbar-light bg-light">-->
-<!--    <div class="container-fluid">-->
-<!--        <a class="navbar-brand" href="#">Phrygian</a>-->
-<!--        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">-->
-<!--            <span class="navbar-toggler-icon"></span>-->
-<!--        </button>-->
-<!--        <div class="collapse navbar-collapse" id="navbarNav">-->
-<!--            <ul class="navbar-nav me-auto">-->
-<!--                <li class="nav-item">-->
-<!--                    <a class="nav-link" href="/328/final-project">Home</a>-->
-<!--                </li>-->
-<!--                <li class="nav-item">-->
-<!--                    <a class="nav-link" href="about">About</a>-->
-<!--                </li>-->
-<!--                <li class="nav-item">-->
-<!--                    <a class="nav-link" href="listing">Listing</a>-->
-<!--                </li>-->
-<!--                <li class="nav-item">-->
-<!--                    <a class="nav-link" href="search">Search</a>-->
-<!--                </li>-->
-<!--            </ul>-->
-<!--            &lt;!&ndash; Cart icon &ndash;&gt;-->
-<!--            <div class="container-fluid">-->
-<!--                <a class="navbar-brand" href="#">-->
-<!--                    <img src="images/cart.jpeg" alt="cart Logo">-->
-<!--                </a>-->
-<!--            </div>-->
 
-<!--            </a>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</nav>-->
-
+<script src="../../script/script.js"></script>
 
