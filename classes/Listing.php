@@ -2,37 +2,19 @@
 
 class Listing
 {
-    private $_id;
     private $_name;
     private $_brand;
     private $_price;
     private $_desc;
     private $_specs;
 
-    public function __construct($id,$name,$brand,$price,$desc,$specs)
+    public function __construct($name,$brand,$price,$desc,$specs)
     {
-        $this->_id = $id;
         $this->_name = $name;
         $this->_brand = $brand;
         $this->_price = $price;
         $this->_desc = $desc;
         $this->_specs = $specs;
-    }
-
-    /**
-     * @return string
-     */
-    public function getId()
-    {
-        return $this->_id;
-    }
-
-    /**
-     * @param string $id
-     */
-    public function setId($id)
-    {
-        $this->_id = $id;
     }
 
     /**

@@ -1,7 +1,7 @@
 <?php
 class DataLayer
 {
-    function getTestListings()
+    static function getTestListings()
     {
         return array(
             new Listing('instr1','Test name 1', 'Test brand 1', 5, 'Test desc 1', array('spec1' => 'spec1', 'spec2'=>'spec2')),
@@ -9,15 +9,14 @@ class DataLayer
             new Listing('instr3','Test name 3', 'Test brand 3', 5, 'Test desc 3', array('spec1' => 'spec1', 'spec2'=>'spec2')),
             new Listing('instr4','Test name 4', 'Test brand 4', 5, 'Test desc 4', array('spec1' => 'spec1', 'spec2'=>'spec2')),
         );
-        //TODO: Use a PDO to query a database for listings based on filters and sort
     }
 
-    function getListings($filters)
+    static function getListings($filters)
     {
         $dbh = $GLOBALS['dbh'];
 
         //Define SQL query
-        $sql = 'SELECT lstName, lstPrice, lstBrand, lstSale FROM listing, instrument, brand, specVal, specKey,'
+        $sql = 'SELECT lstName, lstPrice, brandName, lstSale, lstDesc, specKey, specValue FROM listing, instrument, brand, specVal, specKey,'
             .'specValLst';
 
 
@@ -95,12 +94,37 @@ class DataLayer
                                         )';
 
                 }
-            }
+                //Prepare, execute, and process the query
+                $statement = $dbh->prepare($sql);
+                $statement->execute($params);
+                $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 
+            }
+        //If there are no filters set, run the select query to get all listings
+        } else {
+            $statement = $dbh->prepare($sql);
+            $statement->execute();
         }
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        //Populate an array of listings using the results
+        $listings = [];
+        foreach ($result as $row) {
+            //Add the current listing to the array if it hasn't been added already
+            if (!in_array($row['name'],$listings)) {
+                $listings['name'] = new Listing($row['lstName'],$row['brandName'],$row['lstPrice'],
+                    $row['lstDesc'],array($row['specKeyName'] => $row['specValName']));
+                //Otherwise, this means that the listing just needs more specifications added to its specs assoc arr
+            } else {
+                $listings['name']->setSpecs(
+                    $listings['name']->getSpecs()[$row['specKeyName']] = $row['specValName']
+                );
+            }
+        }
+        return $listings;
     }
 
-    function getFilters()
+    static function getFilters()
     {
         $dbh = $GLOBALS['dbh'];
 
