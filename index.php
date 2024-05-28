@@ -4,6 +4,7 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/../config.php';
 ini_set('error_reporting',1);
 error_reporting(E_ALL);
 require_once('vendor/autoload.php');
+require_once('controllers/controller.php');
 session_start();
 
 //Create instance of f3 base class
