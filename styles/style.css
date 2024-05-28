@@ -6,7 +6,6 @@ body, html {
     background: url('../images/background-image.jpg') no-repeat center center fixed;
     background-size: cover;
 
-
 }
 
 header {
@@ -88,9 +87,7 @@ main {
     margin-top: 50px; /* Adjust based on your actual layout needs */
 }
 
-footer {
-    background-color: #222;
-}
+
 
 
 
@@ -188,3 +185,4 @@ footer {
 {
     border-radius: 50px;
 }
+
