@@ -1,0 +1,8 @@
+[14-May-2024 16:20:50 UTC] HTTP 404 (GET /listing)
+[14-May-2024 16:20:50 UTC] [328/final-project/index.php:50] Base->run()
+[14-May-2024 16:21:00 UTC] HTTP 404 (GET /listing)
+[14-May-2024 16:21:00 UTC] [328/final-project/index.php:50] Base->run()
+[14-May-2024 17:48:34 UTC] HTTP 404 (GET /listing)
+[14-May-2024 17:48:34 UTC] [328/final-project/index.php:50] Base->run()
+[14-May-2024 17:51:44 UTC] Class 'Listing' not found [/home/genegree/public_html/328/final-project/index.php:27]
+[14-May-2024 17:51:44 UTC] [328/final-project/index.php:50] Base->run()
