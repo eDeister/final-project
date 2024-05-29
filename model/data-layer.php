@@ -114,8 +114,6 @@ class DataLayer
             }
             $listings[$lstCode]->addSpec($row['specKeyName'],$row['specValName']);
         }
-
-
         return $listings;
     }
 
