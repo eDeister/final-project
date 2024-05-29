@@ -1,15 +1,6 @@
 <?php
 class DataLayer
 {
-    static function getTestListings()
-    {
-//        return array(
-//            new Listing('instr1','Test name 1', 'Test brand 1', 5, 'Test desc 1', array('spec1' => 'spec1', 'spec2'=>'spec2')),
-//            new Listing('instr2','Test name 2', 'Test brand 2', 5, 'Test desc 2', array('spec1' => 'spec1', 'spec2'=>'spec2')),
-//            new Listing('instr3','Test name 3', 'Test brand 3', 5, 'Test desc 3', array('spec1' => 'spec1', 'spec2'=>'spec2')),
-//            new Listing('instr4','Test name 4', 'Test brand 4', 5, 'Test desc 4', array('spec1' => 'spec1', 'spec2'=>'spec2')),
-//        );
-    }
 
     static function getListings($filters)
     {
