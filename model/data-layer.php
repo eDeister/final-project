@@ -1,7 +1,6 @@
 <?php
 class DataLayer
 {
-
     static function getListings($filters)
     {
         $dbh = $GLOBALS['dbh'];
@@ -11,7 +10,7 @@ class DataLayer
                     specV.specValName 
                 FROM listing lst
                 JOIN brand br ON lst.brandID = br.brandID 
-                JOIN specValLst specVL ON lst.specID = specVL.specID
+                JOIN specValLst specVL ON lst.lstID = specVL.lstID
                 JOIN specVal specV ON specVL.specValID = specV.specValID
                 JOIN specKey specK ON specV.specKeyID = specK.specKeyID';
 
@@ -77,8 +76,8 @@ class DataLayer
             if(!empty($filters['specs'])){
 
                 //
-                $sql .= ' AND lst.specID IN (
-                                        SELECT specID 
+                $sql .= ' AND lst.lstID IN (
+                                        SELECT lstID 
                                         FROM specValLst 
                                         WHERE specValID IN (
                                             SELECT specValID 
