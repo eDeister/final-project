@@ -2,19 +2,37 @@
 
 class Listing
 {
+    private $_code;
     private $_name;
     private $_brand;
     private $_price;
+    private $_sale;
     private $_desc;
     private $_specs;
 
-    public function __construct($name,$brand,$price,$desc,$specs)
+    public function __construct($code,$name,$brand,$price,$sale,$desc,$specs)
     {
+        $this->_code = $code;
         $this->_name = $name;
         $this->_brand = $brand;
         $this->_price = $price;
+        $this->_sale = $sale;
         $this->_desc = $desc;
         $this->_specs = $specs;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCode()
+    {
+        return $this->_code;
+    }/**
+     * @param mixed $code
+     */
+    public function setCode($code): void
+    {
+        $this->_code = $code;
     }
 
     /**
@@ -66,6 +84,22 @@ class Listing
     }
 
     /**
+     * @return mixed
+     */
+    public function getSale()
+    {
+        return $this->_sale;
+    }
+
+    /**
+     * @param mixed $sale
+     */
+    public function setSale($sale): void
+    {
+        $this->_sale = $sale;
+    }
+
+    /**
      * @return string
      */
     public function getDesc()
@@ -95,6 +129,11 @@ class Listing
     public function setSpecs($specs)
     {
         $this->_specs = $specs;
+    }
+
+    public function addSpec($specKey,$specValue)
+    {
+        $this->_specs[$specKey] = $specValue;
     }
 
 

@@ -1,5 +1,6 @@
 <?php
-//Set error reporting, require autoload, and start session.
+//Get config, set error reporting, require autoload, and start session.
+require_once $_SERVER['DOCUMENT_ROOT'].'/../config.php';
 ini_set('error_reporting',1);
 error_reporting(E_ALL);
 require_once('vendor/autoload.php');
@@ -7,6 +8,7 @@ session_start();
 
 //Create instance of f3 base class
 $f3 = Base::Instance();
+
 
 //Define a default route
 $f3->route('GET /', function() {
@@ -28,9 +30,14 @@ $f3->route('GET /listing', function() {
     echo $view->render('views/listing.html');
 });
 //Define a route for any particular listing
-$f3->route('GET /listing/@listing', function($f3, $params) {
-    //TODO: Query a database using $params['listing'] to
-    // get a listing object and display appropriate data
+$f3->route('GET /listing/@code', function($f3, $params) {
+    //Use data layer to query the database using $params['listing'] to get the listing data by its code.
+    $code = $params['code'];
+    $filters = array(
+        'code' => $code
+    );
+    $listing = DataLayer::getListings($filters)[$code];
+    $f3->set('listing', $listing);
 
     $view = new Template();
     echo $view->render('views/listing.html');
@@ -51,6 +58,8 @@ $f3->route('GET /search', function($f3) {
     $view = new Template();
     echo $view->render('views/search_result.html');
 });
+
+
 
 $f3->route('GET /cart', function($f3) {
     // TODO: Implement logic to fetch cart items
