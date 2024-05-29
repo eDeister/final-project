@@ -1,16 +1,20 @@
-<repeat group="{{ @listings }}" value="{{ @listing }}" counter="{{ @ctr }}">
+<repeat group="{{ @results }}" value="{{ @listing }}" counter="{{ @ctr }}">
     <!--Split by # of listing per row-->
     <check if="{{ @ctr % @row == 1}}">
         <true>
             <div class="row m-5">
         </true>
     </check>
-        <div class="col-{{ 12/@row }}" id="{{ @listing->getId().'-col' }}">
-            <div class="card m-2 p-2" id="{{ @listing->getId().'-card' }}">
-                <img src="images/listings/{{ @listing->getId().'.jpg' }}" class="card-img-top" alt="{{ @listing->name }}">
+        <div class="col-{{ 12/@row }}" id="{{ @listing->getCode().'-col' }}">
+            <div class="card m-2 p-2" id="{{ @listing->getCode().'-card' }}">
+                <img src="images/listings/{{ @listing->getCode().'.jpg' }}" class="card-img-top"
+                     alt="Image of {{ @listing->getBrand() }}'s {{ @listing->getName() }}">
                 <div class="card-body">
                     <p class="card-title">{{ @listing->getName() }} | {{ @listing->getBrand() }}</p>
-                    <p class="card-text"><b>${{ @listing->getPrice() }}</b></p>
+<!--                    If there is a sale, display sale price, otherwise display regular price-->
+                    <p class="card-text"><b>${{ (!empty(@listing->getSale()))
+                        ? (@listing->getPrice() * @listing->getSale())
+                        : @listing->getPrice() }}</b></p>
                 </div>
             </div>
         </div>

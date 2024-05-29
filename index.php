@@ -25,11 +25,6 @@ $f3->route('GET /about', function() {
 });
 
 
-//Define a route for about page
-$f3->route('GET /listing', function() {
-    $view = new Template();
-    echo $view->render('views/listing.html');
-});
 //Define a route for any particular listing
 $f3->route('GET /listing/@code', function($f3, $params) {
     //Use data layer to query the database using $params['listing'] to get the listing data by its code.
@@ -46,18 +41,20 @@ $f3->route('GET /listing/@code', function($f3, $params) {
 
 
 // Abdul Rahmani commits
-$f3->route('GET /search', function($f3) {
-    $query = $_GET['query'];
-    $filter = $_GET['filter'];
+$f3->route('GET|POST /search', function($f3) {
+    if($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $query = $_POST['query'];
+        $filter = $_POST['filter'];
+        // TODO: Implement DataLayer query with filters
+    } else {
+        $results = DataLayer::getListings(null);
+    }
 
-    // TODO: Implement your search logic here
-    // Example: Query the database based on $query and $filter
 
-    $results = []; // This should be the result of your database query
 
     $f3->set('results', $results);
     $view = new Template();
-    echo $view->render('views/search_result.html');
+    echo $view->render('views/search.html');
 });
 
 

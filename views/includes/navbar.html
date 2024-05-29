@@ -9,14 +9,11 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="{{ @BASE }}">Home</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item active">
                     <a class="nav-link" href="about">About</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="listing">Listing</a>
-                </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0" id="search-form">
+            <form class="form-inline my-2 my-lg-0 flex-grow-1 justify-content-end" id="search-form" action="search" method="POST">
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="Search for instruments..." aria-label="Search" aria-describedby="search-addon" id="search-query">
                     <div class="input-group-append">
@@ -53,5 +50,5 @@
 </div>
 
 
-<script src="../../script/script.js"></script>
+<script src="scripts/script.js"></script>
 

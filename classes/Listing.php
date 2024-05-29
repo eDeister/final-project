@@ -10,27 +10,27 @@ class Listing
     private $_desc;
     private $_specs;
 
-    public function __construct($code,$name,$brand,$price,$sale,$desc,$specs)
+    public function __construct($code,$name,$brand,$price,$desc,$sale=1,$specs=array())
     {
         $this->_code = $code;
         $this->_name = $name;
         $this->_brand = $brand;
         $this->_price = $price;
-        $this->_sale = $sale;
         $this->_desc = $desc;
+        $this->_sale = $sale;
         $this->_specs = $specs;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getCode()
     {
         return $this->_code;
     }/**
-     * @param mixed $code
+     * @param string $code
      */
-    public function setCode($code): void
+    public function setCode(string $code)
     {
         $this->_code = $code;
     }
@@ -46,7 +46,7 @@ class Listing
     /**
      * @param string $name
      */
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->_name = $name;
     }
@@ -62,7 +62,7 @@ class Listing
     /**
      * @param string $brand
      */
-    public function setBrand($brand)
+    public function setBrand(string $brand)
     {
         $this->_brand = $brand;
     }
@@ -84,7 +84,7 @@ class Listing
     }
 
     /**
-     * @return mixed
+     * @return float
      */
     public function getSale()
     {
@@ -92,9 +92,9 @@ class Listing
     }
 
     /**
-     * @param mixed $sale
+     * @param float $sale
      */
-    public function setSale($sale): void
+    public function setSale(float $sale)
     {
         $this->_sale = $sale;
     }
@@ -110,7 +110,7 @@ class Listing
     /**
      * @param string $desc
      */
-    public function setDesc($desc)
+    public function setDesc(string $desc)
     {
         $this->_desc = $desc;
     }
@@ -126,7 +126,7 @@ class Listing
     /**
      * @param array $specs
      */
-    public function setSpecs($specs)
+    public function setSpecs(array $specs)
     {
         $this->_specs = $specs;
     }
