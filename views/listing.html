@@ -4,7 +4,9 @@
 <div class="container text-light p-5">
 <!--    Define row for basic info about listing (Image, name, price, brand, and description)-->
     <div class="row">
-        <img src="images/listings/{{ @listing->getCode() }}.jpg" alt="An image of {{ @listing->getCode() }}" class="rounded col-6">
+        <div class="col-6">
+            <img src="images/listings/{{ @listing->getCode() }}.jpg" alt="An image of {{ @listing->getCode() }}" class="img-fluid rounded">
+        </div>
 <!--        <img src="images/listings/{{ @listing->getCode() }}.jpg" alt="An image of {{ @listing->getCode() }}" class="rounded col-8">-->
         <div class="col-6">
 <!--            Display sale price if on sale, otherwise display base price-->
