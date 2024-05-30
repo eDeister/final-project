@@ -1,11 +1,12 @@
 <include href="views/includes/header.html"></include>
 <include href="views/includes/navbar.html"></include>
 
-<div class="container w-50">
+<div class="container text-light p-5">
 <!--    Define row for basic info about listing (Image, name, price, brand, and description)-->
     <div class="row">
-        <img src="images/listings/{{ @listing->getCode() }}.jpg" alt="An image of {{ @listing->getCode() }}" class="rounded col-8">
-        <div class="col-4">
+        <img src="images/listings/{{ @listing->getCode() }}.jpg" alt="An image of {{ @listing->getCode() }}" class="rounded col-6">
+<!--        <img src="images/listings/{{ @listing->getCode() }}.jpg" alt="An image of {{ @listing->getCode() }}" class="rounded col-8">-->
+        <div class="col-6">
 <!--            Display sale price if on sale, otherwise display base price-->
             <check if="{{ !empty(@listing->getSale()) }}">
                 <true><h2>{{ @listing->getName() }} - ${{ @listing->getPrice() }}</h2></true>
@@ -22,18 +23,20 @@
     <br><hr>
 
 <!--    Define row for listings specs sheet/table -->
-    <div class="row">
-        <h2 class="text-center">Specs</h2>
-        <table>
-            <tbody>
-            <repeat group="{{ @listing->getSpecs() }}" key="{{ @specName }}" value="{{ @specVal }}" >
-                <tr>
-                    <td>{{ @specName }}</td>
-                    <td>{{ @specVal }}</td>
-                </tr>
-            </repeat>
-            </tbody>
-        </table>
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <h2 class="text-center">Specs</h2>
+            <table class="table table-bordered">
+                <tbody>
+                <repeat group="{{ @listing->getSpecs() }}" key="{{ @specName }}" value="{{ @specVal }}" >
+                    <tr>
+                        <td>{{ @specName }}</td>
+                        <td>{{ @specVal }}</td>
+                    </tr>
+                </repeat>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 

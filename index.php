@@ -25,7 +25,7 @@ $f3->route('GET /about', function() {
 
 
 //Define a route for any particular listing
-$f3->route('GET /listing/@code', function($f3, $params) {
+$f3->route('GET /listing-@code', function($f3, $params) {
     //Use data layer to query the database using $params['listing'] to get the listing data by its code.
     $code = $params['code'];
     $filters = array(
@@ -39,7 +39,6 @@ $f3->route('GET /listing/@code', function($f3, $params) {
 });
 
 
-// Abdul Rahmani commits
 $f3->route('GET|POST /search', function($f3) {
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $query = $_POST['query'];
@@ -48,8 +47,8 @@ $f3->route('GET|POST /search', function($f3) {
     } else {
         $results = DataLayer::getListings(null);
     }
-
-
+    $f3->set('filterList', DataLayer::getFilters());
+    $f3->set('sortList',DataLayer::getSorts());
     $f3->set('row', 3);
     $f3->set('results', $results);
     $view = new Template();

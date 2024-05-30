@@ -120,7 +120,33 @@ class DataLayer
 
     static function getFilters()
     {
-        $dbh = $GLOBALS['dbh'];
+//        $dbh = $GLOBALS['dbh'];
+        return array(
+            'Brand' => array(
+                'Roland',
+                'Fender',
+                'Yamaha',
+                'Zildjian',
+                'Korg',
 
+            ),
+            'Type' => array(
+                'Piano',
+                'Guitar',
+                'Violin',
+                'Drums',
+                'Synth'
+            ),
+        );
+    }
+
+    static function getSorts()
+    {
+        return array(
+            'Name: A-Z',
+            'New Arrivals',
+            'Price: Ascending',
+            'Price: Descending'
+        );
     }
 }
