@@ -5,19 +5,20 @@
             <div class="row m-5">
         </true>
     </check>
+    <a href="listing/{{ @listing->getCode() }}">
         <div class="col-{{ 12/@row }}" id="{{ @listing->getCode().'-col' }}">
             <div class="card m-2 p-2" id="{{ @listing->getCode().'-card' }}">
                 <img src="images/listings/{{ @listing->getCode().'.jpg' }}" class="card-img-top"
                      alt="Image of {{ @listing->getBrand() }}'s {{ @listing->getName() }}">
                 <div class="card-body">
                     <p class="card-title">{{ @listing->getName() }} | {{ @listing->getBrand() }}</p>
-<!--                    If there is a sale, display sale price, otherwise display regular price-->
-                    <p class="card-text"><b>${{ (!empty(@listing->getSale()))
-                        ? (@listing->getPrice() * @listing->getSale())
+                    <!--                    If there is a sale, display sale price, otherwise display regular price-->
+                    <p class="card-text"><b>${{ @listing->getSale() ? @listing->getPrice() * @listing->getSale()
                         : @listing->getPrice() }}</b></p>
                 </div>
             </div>
         </div>
+    </a>
     <!--Split by # of listing per row-->
     <check if="{{ @ctr % @row == 0}}">
         <true>

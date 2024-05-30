@@ -1,6 +1,7 @@
 <include href="views/includes/header.html"></include>
 <include href="views/includes/navbar.html"></include>
-<div class="container-fluid w-50">
+
+<div class="container w-50">
 <!--    Define row for basic info about listing (Image, name, price, brand, and description)-->
     <div class="row">
         <img src="images/listings/{{ @listing->getCode() }}.jpg" alt="An image of {{ @listing->getCode() }}" class="rounded col-8">
@@ -36,6 +37,4 @@
     </div>
 </div>
 
-
-</body>
-</html>
+<include href="views/includes/footer.html"></include>

@@ -109,7 +109,7 @@ class DataLayer
             //Add the current listing to the array if it hasn't been added already
             if (!array_key_exists($lstCode, $listings)) {
                 $listings[$lstCode] = new Listing($row['lstCode'],$row['lstName'],$row['brandName'],$row['lstPrice'],
-                    $row['lstSale'],$row['lstDesc'], array());
+                    $row['lstDesc'],$row['lstSale'], array());
                 //Otherwise, this means that the listing just needs more specifications added to its specs assoc arr
             }
             $listings[$lstCode]->addSpec($row['specKeyName'],$row['specValName']);
