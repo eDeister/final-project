@@ -4,8 +4,9 @@
 <div class="container text-light p-5">
 <!--    Define row for basic info about listing (Image, name, price, brand, and description)-->
     <div class="row">
-        <div class="col-6">
-            <img src="images/listings/{{ @listing->getCode() }}.jpg" alt="An image of {{ @listing->getCode() }}" class="img-fluid rounded">
+        <div class="col-6 d-flex align-items-center">
+            <img src="images/listings/{{ @listing->getCode() }}.jpg" alt="An image of {{ @listing->getCode() }}"
+                 class="img-fluid rounded">
         </div>
 <!--        <img src="images/listings/{{ @listing->getCode() }}.jpg" alt="An image of {{ @listing->getCode() }}" class="rounded col-8">-->
         <div class="col-6">

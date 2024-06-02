@@ -53,26 +53,3 @@ CREATE TABLE listing
 	FOREIGN KEY (brandID) REFERENCES brand(brandID),
 	FOREIGN KEY (instID) REFERENCES instrument(instID)
 );
-
-INSERT INTO listing (lstCode, lstName, lstPrice, lstSale, lstDesc, brandID, instID)
-VALUES ('fp-90', 'FP-90', '1999.99', '0.7', 'Introducing the Roland FP-90: Where innovation meets performance,
-this digital piano redefines excellence in music creation. Boasting an advanced sound engine, the FP-90 delivers
-stunningly authentic piano tones with unparalleled expressiveness. Its sleek and portable design makes it perfect
-for both stage and studio use, while its intuitive interface ensures effortless navigation. With a wide range of
-built-in features including Bluetooth connectivity and versatile recording options, the Roland FP-90 empowers
-musicians of all levels to unleash their creativity with unmatched precision and clarity.', 1, 1);
-
-INSERT INTO brand (brandName)
-VALUES ('Roland');
-
-INSERT INTO instrument ()
-VALUES ();
-
-INSERT INTO specKey ()
-VALUES ();
-
-INSERT INTO specVal ()
-VALUES();
-
-INSERT INTO specValLst ()
-VALUES ();
