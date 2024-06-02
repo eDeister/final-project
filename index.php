@@ -1,5 +1,6 @@
 <?php
-//Set error reporting, require autoload, and start session.
+//Get config, set error reporting, require autoload, and start session.
+require_once $_SERVER['DOCUMENT_ROOT'].'/../config.php';
 ini_set('error_reporting',1);
 error_reporting(E_ALL);
 require_once('vendor/autoload.php');
@@ -8,6 +9,7 @@ session_start();
 
 //Create instance of f3 base class
 $f3 = Base::Instance();
+
 
 //Define a default route
 $f3->route('GET /', function() {
@@ -23,35 +25,38 @@ $f3->route('GET /about', function() {
 });
 
 
-//Define a route for about page
-$f3->route('GET /listing', function() {
-    $view = new Template();
-    echo $view->render('views/listing.html');
-});
 //Define a route for any particular listing
-$f3->route('GET /listing/@listing', function($f3, $params) {
-    //TODO: Query a database using $params['listing'] to
-    // get a listing object and display appropriate data
+$f3->route('GET /listing-@code', function($f3, $params) {
+    //Use data layer to query the database using $params['listing'] to get the listing data by its code.
+    $code = $params['code'];
+    $filters = array(
+        'code' => $code
+    );
+    $listing = DataLayer::getListings($filters)[$code];
+    $f3->set('listing', $listing);
 
     $view = new Template();
     echo $view->render('views/listing.html');
 });
 
 
-// Abdul Rahmani commits
-$f3->route('GET /search', function($f3) {
-    $query = $_GET['query'];
-    $filter = $_GET['filter'];
-
-    // TODO: Implement your search logic here
-    // Example: Query the database based on $query and $filter
-
-    $results = []; // This should be the result of your database query
-
+$f3->route('GET|POST /search', function($f3) {
+    if($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $query = $_POST['query'];
+        $filter = $_POST['filter'];
+        // TODO: Implement DataLayer query with filters
+    } else {
+        $results = DataLayer::getListings(null);
+    }
+    $f3->set('filterList', DataLayer::getFilters());
+    $f3->set('sortList',DataLayer::getSorts());
+    $f3->set('row', 3);
     $f3->set('results', $results);
     $view = new Template();
-    echo $view->render('views/search_result.html');
+    echo $view->render('views/search.html');
 });
+
+
 
 $f3->route('GET /cart', function($f3) {
     // TODO: Implement logic to fetch cart items

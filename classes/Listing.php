@@ -2,19 +2,37 @@
 
 class Listing
 {
+    private $_code;
     private $_name;
     private $_brand;
     private $_price;
+    private $_sale;
     private $_desc;
     private $_specs;
 
-    public function __construct($name,$brand,$price,$desc,$specs)
+    public function __construct($code,$name,$brand,$price,$desc,$sale=1,$specs=array())
     {
+        $this->_code = $code;
         $this->_name = $name;
         $this->_brand = $brand;
         $this->_price = $price;
         $this->_desc = $desc;
+        $this->_sale = $sale;
         $this->_specs = $specs;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCode()
+    {
+        return $this->_code;
+    }/**
+     * @param string $code
+     */
+    public function setCode(string $code)
+    {
+        $this->_code = $code;
     }
 
     /**
@@ -28,7 +46,7 @@ class Listing
     /**
      * @param string $name
      */
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->_name = $name;
     }
@@ -44,7 +62,7 @@ class Listing
     /**
      * @param string $brand
      */
-    public function setBrand($brand)
+    public function setBrand(string $brand)
     {
         $this->_brand = $brand;
     }
@@ -66,6 +84,22 @@ class Listing
     }
 
     /**
+     * @return float
+     */
+    public function getSale()
+    {
+        return $this->_sale;
+    }
+
+    /**
+     * @param float $sale
+     */
+    public function setSale(float $sale)
+    {
+        $this->_sale = $sale;
+    }
+
+    /**
      * @return string
      */
     public function getDesc()
@@ -76,7 +110,7 @@ class Listing
     /**
      * @param string $desc
      */
-    public function setDesc($desc)
+    public function setDesc(string $desc)
     {
         $this->_desc = $desc;
     }
@@ -92,9 +126,14 @@ class Listing
     /**
      * @param array $specs
      */
-    public function setSpecs($specs)
+    public function setSpecs(array $specs)
     {
         $this->_specs = $specs;
+    }
+
+    public function addSpec($specKey,$specValue)
+    {
+        $this->_specs[$specKey] = $specValue;
     }
 
 

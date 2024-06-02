@@ -1,132 +1,152 @@
 <?php
 class DataLayer
 {
-    static function getTestListings()
-    {
-        return array(
-            new Listing('instr1','Test name 1', 'Test brand 1', 5, 'Test desc 1', array('spec1' => 'spec1', 'spec2'=>'spec2')),
-            new Listing('instr2','Test name 2', 'Test brand 2', 5, 'Test desc 2', array('spec1' => 'spec1', 'spec2'=>'spec2')),
-            new Listing('instr3','Test name 3', 'Test brand 3', 5, 'Test desc 3', array('spec1' => 'spec1', 'spec2'=>'spec2')),
-            new Listing('instr4','Test name 4', 'Test brand 4', 5, 'Test desc 4', array('spec1' => 'spec1', 'spec2'=>'spec2')),
-        );
-    }
-
     static function getListings($filters)
     {
         $dbh = $GLOBALS['dbh'];
 
         //Define SQL query
-        $sql = 'SELECT lstName, lstPrice, brandName, lstSale, lstDesc, specKey, specValue FROM listing, instrument, brand, specVal, specKey,'
-            .'specValLst';
+        $sql = 'SELECT lst.lstCode, lst.lstName, br.brandName, lst.lstPrice, lst.lstSale, lst.lstDesc, specK.specKeyName,
+                    specV.specValName 
+                FROM listing lst
+                JOIN brand br ON lst.brandID = br.brandID 
+                JOIN specValLst specVL ON lst.lstID = specVL.lstID
+                JOIN specVal specV ON specVL.specValID = specV.specValID
+                JOIN specKey specK ON specV.specKeyID = specK.specKeyID';
 
+        $params = [];
 
-        if(!empty($filters)){
-            $sql .= ' WHERE ';
+        if(!empty($filters)) {
+            $sql .= ' WHERE 1=1';
+
+            //If the user has searched by code...
+            if (!empty($filters['code'])) {
+
+                //Add the name as a clause (and parameter)
+                $sql .= ' AND lstCode = :code';
+                $params[':code'] = $filters['code'];
+
+            }
             //If the user has searched by name...
-            if(!empty($filters['name'])){
-                //Complete the query (define, prepare, bind, execute) with the name
-                $sql .= ' lstName = :name';
-                $statement = $dbh->prepare($sql);
-                $statement->bindParam(':name', $filters['name']);
-                $statement->execute();
-            } else {
-                $params = [];
-                $sql = $sql.' 1=1';
+            if (!empty($filters['name'])) {
 
-                //If the user has filtered by sales
-                if(!empty($filters['sale'])){
-                    $sql .= 'AND lstSale IS NOT NULL';
-                }
+                //Add the name as a clause (and parameter)
+                $sql .= ' AND lstName = :name';
+                $params[':name'] = $filters['name'];
+            }
+            //If the user has filtered by sales
+            if(!empty($filters['sale'])){
 
-                //If the user has filtered by a price range
-                if(!empty($filters['price'])){
-                    $sql .= 'AND lstPrice BETWEEN :priceMin AND :priceMax';
-                    $params[':priceMin'] = $filters['price']['min'];
-                    $params[':priceMax'] = $filters['price']['max'];
-                }
+                //Add sale requirement clause
+                $sql .= ' AND lstSale IS NOT NULL';
+            }
+            //If the user has filtered by a price range
+            if(!empty($filters['price'])){
+                //Add min and max price as a clause (and params)
+                $sql .= ' AND lstPrice BETWEEN :priceMin AND :priceMax';
+                $params[':priceMin'] = $filters['price']['min'];
+                $params[':priceMax'] = $filters['price']['max'];
+            }
 
-                //If the user has filtered by the instrument type
-                if(!empty($filters['type'])){
-                    //Use a subquery to find all listings of selected instrument type
-                    $sql .= 'AND listing.instID = (
+            //If the user has filtered by the instrument type
+            if(!empty($filters['type'])){
+
+                //Use a subquery to find all listings of selected instrument type
+                $sql .= ' AND listing.instID = (
                                     SELECT instID 
                                     FROM instrument   
                                     WHERE instType = :type
                                 ) ';
-                    $params[':type'] = $filters['type'];
-                }
+                $params[':type'] = $filters['type'];
+            }
 
-                //If the user has filtered by the brand
-                if(!empty($filters['brand'])){
-                    //Use a subquery to find all listings
-                    $sql .= 'AND listing.brandID = (
+            //If the user has filtered by the brand
+            if(!empty($filters['brand'])){
+
+                //Use a subquery to find all listings
+                $sql .= ' AND listing.brandID = (
                                     SELECT brandID 
                                     FROM brand 
                                     WHERE brandName = :brand
                                 ) ';
-                    $params[':brand'] = $filters['brand'];
-                }
+                $params[':brand'] = $filters['brand'];
+            }
 
-                //If the user has selected any specs to filter by (e.g. speaker wattage)
-                if(!empty($filters['specs'])){
-                    $index = 1;
-                    $keyPlaceholders = [];
-                    $valPlaceholders = [];
-                    foreach($filters['specs'] as $key => $val){
-                        $keyPlaceholders[] = ':key'.$index;
-                        $valPlaceholders[] = ':val'.$index;
-                        $params['key'.$index] = $key;
-                        $params['val'.$index] = $val;
-                        $index++;
-                    }
-                    $sql .= 'AND listing.specID = (
-                                        SELECT specID 
+            //If the user has selected any specs to filter by (e.g. speaker wattage)
+            if(!empty($filters['specs'])){
+
+                //
+                $sql .= ' AND lst.lstID IN (
+                                        SELECT lstID 
                                         FROM specValLst 
-                                        WHERE specValID = (
+                                        WHERE specValID IN (
                                             SELECT specValID 
                                             FROM specVal 
-                                            WHERE specValName IN ('.implode(', ', $valPlaceholders).')
-                                            AND specKeyID IN (
+                                            WHERE specValName IN (:specVals)
+                                        )
+                                        AND specKeyID IN (
                                                 SELECT specKeyID 
                                                 FROM specKey
-                                                WHERE specKeyName IN ('.implode(', ', $keyPlaceholders).')
-                                            )
+                                                WHERE specKeyName IN (:specKeys)
+                                            )    
                                         )';
-
-                }
-                //Prepare, execute, and process the query
-                $statement = $dbh->prepare($sql);
-                $statement->execute($params);
-                $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+                $params[':specKeys'] = array_keys($filters['specs']);
+                $params[':specVals'] = array_values($filters['specs']);
 
             }
-        //If there are no filters set, run the select query to get all listings
-        } else {
-            $statement = $dbh->prepare($sql);
-            $statement->execute();
         }
+
+        //Prepare, execute, and process the query
+        $statement = $dbh->prepare($sql);
+        $statement->execute($params);
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         //Populate an array of listings using the results
         $listings = [];
         foreach ($result as $row) {
+            $lstCode = $row['lstCode'];
+
             //Add the current listing to the array if it hasn't been added already
-            if (!in_array($row['name'],$listings)) {
-                $listings['name'] = new Listing($row['lstName'],$row['brandName'],$row['lstPrice'],
-                    $row['lstDesc'],array($row['specKeyName'] => $row['specValName']));
+            if (!array_key_exists($lstCode, $listings)) {
+                $listings[$lstCode] = new Listing($row['lstCode'],$row['lstName'],$row['brandName'],$row['lstPrice'],
+                    $row['lstDesc'],$row['lstSale'], array());
                 //Otherwise, this means that the listing just needs more specifications added to its specs assoc arr
-            } else {
-                $listings['name']->setSpecs(
-                    $listings['name']->getSpecs()[$row['specKeyName']] = $row['specValName']
-                );
             }
+            $listings[$lstCode]->addSpec($row['specKeyName'],$row['specValName']);
         }
+
         return $listings;
     }
 
     static function getFilters()
     {
-        $dbh = $GLOBALS['dbh'];
+//        $dbh = $GLOBALS['dbh'];
+        return array(
+            'Brand' => array(
+                'Roland',
+                'Fender',
+                'Yamaha',
+                'Zildjian',
+                'Korg',
 
+            ),
+            'Type' => array(
+                'Piano',
+                'Guitar',
+                'Violin',
+                'Drums',
+                'Synth'
+            ),
+        );
+    }
+
+    static function getSorts()
+    {
+        return array(
+            'Name: A-Z',
+            'New Arrivals',
+            'Price: Ascending',
+            'Price: Descending'
+        );
     }
 }

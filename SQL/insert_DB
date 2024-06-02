@@ -1,0 +1,62 @@
+INSERT INTO listing (lstCode, lstName, lstPrice, lstSale, lstDesc, brandID, instID)
+VALUES
+    ('fp-90','FP-90',1999.99,.7,'',1,1)
+	('p-125','P-125',799.99,1,'',2,1),
+	('pstrat','Player Stratocaster',799.99,.15,'',3,2),
+	('td-17kvx','V-Drums TD-17KVX',1899.99,1,'',1,3),
+	('b2sp','B2 SP',499.99,1,'',4,1),
+	('ptele','Player Telecaster',829.99,1,'',3,2);
+
+INSERT INTO instrument (instType)
+VALUES
+    ('Piano'),
+	('Guitar'),
+	('Drums');
+
+INSERT INTO brand (brandName)
+VALUES
+    ('Roland'),
+	('Yamaha'),
+	('Fender'),
+	('Korg');
+
+INSERT INTO specKey (specKeyName)
+VALUES
+    ('Speaker Wattage'),
+	('Number of Frets'),
+	('Number of Keys'),
+	('Number of Toms'),
+	('Sound Production'),
+	('Pickup Type');
+
+
+INSERT INTO specVal (specValName, specKeyID)
+VALUES
+    ('15',1),
+	('25',1),
+	('22',2),
+	('88',3),
+	('3',4),
+	('10',1),
+	('Sampling',5),
+	('Modeling',5),
+	('Player Series',6);
+
+
+INSERT INTO specValLst (lstID, specValID)
+VALUES
+    (1,1),
+	(2,2),
+	(3,3),
+	(1,4),
+	(2,4),
+	(4,5),
+	(5,6),
+	(5,4),
+	(1,8),
+	(2,7),
+	(5,7),
+	(6,3),
+	(3,9),
+	(6,9);
+

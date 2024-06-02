@@ -1,5 +1,42 @@
 <include href="views/includes/header.html"></include>
 <include href="views/includes/navbar.html"></include>
 
+<div class="container">
+    <div class="row">
+        <div class="col-2">
+            <ul>
+                <repeat group="{{ @sortList }}" value="{{ @sortType }}">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="{{ @sortType }}-check" name="sort">
+                        <label class="form-check-label" for="{{ @sortType }}-check">{{ @sortType }}</label>
+                    </div>
+                </repeat>
+                <repeat group="{{ @filterList }}" key="{{ @filterType }}" value="{{ @filterVal }}">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="{{ @filterType }}-check"
+                               onclick="selectAllChildFilters('{{ @filterType }}')" name="filter-type"
+                               value="{{ @filterType }}">
+                        <label class="form-check-label" for="{{ @filterType }}-check">{{ @filterType }}</label>
+                    </div>
+                    <ul>
+                        <repeat group="{{ @filterVal }}" value="{{ @val }}">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="{{ @val }}-check"
+                                       name="filter-{{ @filterType }}-value">
+                                <label class="form-check-label" for="{{ @val }}-check">
+                                    {{ ucwords(@val) }}
+                                </label>
+                            </div>
+                        </repeat>
+                    </ul>
+                </repeat>
+            </ul>
+            <button class="btn btn-light ms-4" onclick="applyFilters()">Apply</button>
+        </div>
+        <div class="col-10" id="search-listings">
+            <include href="views/includes/get-listings.html"></include>
+        </div>
+    </div>
+</div>
 
 <include href="views/includes/footer.html"></include>

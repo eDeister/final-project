@@ -77,4 +77,30 @@ document.addEventListener("DOMContentLoaded", function() {
             link.classList.add('active-link');
         }
     });
+
 });
+//Load new listings whenever the apply filters button is clicked
+function applyFilters() {
+    let filters = {};
+    //TODO: Use jQuery to update the listings div with filters{}
+    document.getElementsByName('filter-type').forEach(type => {
+        filters[type.value] = [];
+        document.getElementsByName('filter-'+type.value+'-value').forEach(checkbox => {
+            if(checkbox.checked) {
+                filters[type.value].push(checkbox);
+            }
+        })
+    });
+    console.log(filters);
+
+}
+
+//Select each child filter when the parent filter is selected
+function selectAllChildFilters(filterType) {
+    document.getElementsByName('filter-'+filterType+'-value').forEach(child => {
+
+        child.checked = document.getElementById(filterType+'-check').checked;
+    });
+}
+
+
