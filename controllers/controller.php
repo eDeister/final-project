@@ -1,5 +1,5 @@
 <?php
-class Controller
+class controller
 {
     private static $_f3;
 
