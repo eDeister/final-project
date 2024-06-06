@@ -1,4 +1,4 @@
-<include href="views/includes/header.html"></include>
+<include href="views/includes/header.html" xmlns="http://www.w3.org/1999/html"></include>
 
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -17,27 +17,24 @@
             </ul>
             <form class="form-inline my-2 my-lg-0 justify-content-end" id="search-form" action="search" method="POST">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search for instruments..." aria-label="Search" aria-describedby="search-addon" id="search-query">
-                    <button class="btn btn-outline-success" type="submit" id="search-button">
-                        <img src="images/searchIcon.png" alt="Cart Logo" style="width: 40px;" id="search-logo">
+                    <input type="text" class="form-control" placeholder="Search for instruments..." aria-label="Search" aria-describedby="search-addon" id="search-query" >
+                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="images/sorticon.png" alt="Search Logo" style="width: 30px;" id="sort-logo">
                     </button>
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Filter</button>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#" data-filter="all">All</a>
-                            <a class="dropdown-item" href="#" data-filter="brand">Brand</a>
-                            <a class="dropdown-item" href="#" data-filter="name">Name</a>
-                            <a class="dropdown-item" href="#" data-filter="price-asc">Price: Low to High</a>
-                            <a class="dropdown-item" href="#" data-filter="price-desc">Price: High to Low</a>
-                            <a class="dropdown-item" href="#" data-filter="new-arrivals">New Arrivals</a>
-                        </div>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="#" data-filter="price-asc">Price: Low to High</a>
+                        <a class="dropdown-item" href="#" data-filter="price-desc">Price: High to Low</a>
+                        <a class="dropdown-item" href="#" data-filter="new-arrivals">New Arrivals</a>
                     </div>
+                    <button class="btn btn-outline-success" type="submit" id="search-button">
+                        <img src="images/searchIcon.png" alt="Search Logo" style="width: 30px;" id="search-logo">
+                    </button>
                 </div>
             </form>
             <!--New dropdown-->
             <div class="dropdown">
                 <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="images/cart.png" alt="Cart icon" id="cart-icon" class="image">
+                    <img src="images/cart.png" alt="Cart icon" id="cart-icon" style="width: 50%;" class="image">
                 </button>
                 <ul class="dropdown-menu" id="cart-menu">
                     <!--TODO:       -->

@@ -522,3 +522,5 @@
 [06-Jun-2024 17:47:24 UTC] [328/final-project/index.php:95] Base->run()
 [06-Jun-2024 17:47:24 UTC] HTTP 404 (GET /images/guitar.jpg)
 [06-Jun-2024 17:47:24 UTC] [328/final-project/index.php:95] Base->run()
+[06-Jun-2024 17:56:05 UTC] Class 'DataLayer' not found [/home/genegree/public_html/328/final-project/index.php:49]
+[06-Jun-2024 17:56:05 UTC] [328/final-project/index.php:95] Base->run()
