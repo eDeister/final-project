@@ -1,4 +1,8 @@
 <?php
+/**
+ * IGNORE: This class is not currenly in use.
+ *
+ */
 class Controller
 {
     private static $_f3;

@@ -30,21 +30,20 @@
                     </div>
                 </div>
             </form>
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item dropdown">
-                    <a class="nav-link" href="#" id="cart-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img src="images/cart.png" alt="Cart Logo" style="width: 40px;" id="cart-logo">
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right p-3" aria-labelledby="cart-dropdown" style="background-color: #333;">
-                        <div id="cart-items">
-                            <!-- Cart items will be dynamically added here -->
-                        </div>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item text-center" href="checkout" style="color: #fff;">Checkout</a>
-                        <a class="dropdown-item text-center" href="#" id="empty-cart" style="color: #fff;">Empty Cart</a>
-                    </div>
-                </li>
-            </ul>
+            <!--New dropdown-->
+            <div class="dropdown">
+                <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="images/cart.png" alt="Cart icon" id="cart-icon" class="image">
+                </button>
+                <ul class="dropdown-menu" id="cart-menu">
+                    <!--TODO:       -->
+                    <repeat group="{{ @SESSION.cart }}" value="{{ @item }}">
+                        <li><a></a></li>
+                    </repeat>
+                    <li><a class="dropdown-item text-center" href="checkout">Checkout</a></li>
+                    <li><a class="dropdown-item text-center" href="#">Empty Cart</a></li>
+                </ul>
+            </div>
         </div>
     </nav>
 </div>

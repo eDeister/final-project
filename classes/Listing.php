@@ -1,5 +1,17 @@
 <?php
 
+/**
+ * Describes a class that represents a single listing on a music ecommerce website.
+ *
+ * Describes a class that represents a single listing of an instrument on a music ecommerce website.
+ * Includes basic info such as name, price, brand, specs, etc. Contains functions for getting and setting
+ * attributes.
+ *
+ * @author Ethan Deister <deister.ethan@student.greenriver.edu>
+ * @author Eugene Faison
+ * @author Abdul Rahmani
+ *
+ */
 class Listing
 {
     private $_code;
@@ -10,7 +22,18 @@ class Listing
     private $_desc;
     private $_specs;
 
-    public function __construct($code,$name,$brand,$price,$desc,$sale=1,$specs=array())
+    /**
+     * Constructs a new Listing with all data values set.
+     *
+     * @param string $code A code used as a url token in the controller
+     * @param string $name The name of the instrument
+     * @param string $brand The brand of the instrument
+     * @param float $price The price of the instrument
+     * @param string $desc The description of the instrument
+     * @param float $sale The decimal value of the percentage off the price of the instrument
+     * @param array $specs An array of the specifications of the instrument
+     */
+    public function __construct($code, $name, $brand, $price, $desc, $sale=1, $specs=array())
     {
         $this->_code = $code;
         $this->_name = $name;
@@ -22,13 +45,13 @@ class Listing
     }
 
     /**
-     * @return string
+     * @return string Returns the listing code
      */
     public function getCode()
     {
         return $this->_code;
     }/**
-     * @param string $code
+     * @param string $code Sets the listing code
      */
     public function setCode(string $code)
     {
@@ -36,7 +59,7 @@ class Listing
     }
 
     /**
-     * @return string
+     * @return string Returns the instrument/listing name
      */
     public function getName()
     {
@@ -44,7 +67,7 @@ class Listing
     }
 
     /**
-     * @param string $name
+     * @param string $name Sets the listing name
      */
     public function setName(string $name)
     {
@@ -52,7 +75,7 @@ class Listing
     }
 
     /**
-     * @return string
+     * @return string Returns the brand name
      */
     public function getBrand()
     {
@@ -60,7 +83,7 @@ class Listing
     }
 
     /**
-     * @param string $brand
+     * @param string $brand Sets the brand name
      */
     public function setBrand(string $brand)
     {
@@ -68,7 +91,7 @@ class Listing
     }
 
     /**
-     * @return float
+     * @return float Returns the listing price
      */
     public function getPrice()
     {
@@ -76,7 +99,7 @@ class Listing
     }
 
     /**
-     * @param float $price
+     * @param float $price Sets the listing price
      */
     public function setPrice($price)
     {
@@ -84,7 +107,7 @@ class Listing
     }
 
     /**
-     * @return float
+     * @return float Returns the sale percentage off
      */
     public function getSale()
     {
@@ -92,7 +115,7 @@ class Listing
     }
 
     /**
-     * @param float $sale
+     * @param float $sale Sets the sale percentage off
      */
     public function setSale(float $sale)
     {
@@ -131,7 +154,12 @@ class Listing
         $this->_specs = $specs;
     }
 
-    public function addSpec($specKey,$specValue)
+    /**
+     * @param $specKey
+     * @param $specValue
+     * @return void
+     */
+    public function addSpec($specKey, $specValue)
     {
         $this->_specs[$specKey] = $specValue;
     }

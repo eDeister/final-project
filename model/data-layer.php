@@ -1,6 +1,21 @@
 <?php
+
+/**
+ * Describes a class used to fetch data to be used in the controller.
+ *
+ * Describes a class used to fetch either raw data or data from the database to be used in the controller.
+ * Includes a function for SELECTing data from our mySQL database, and two functions for getting filters and sorts.
+ *
+ * @author Ethan Deister <deister.ethan@student.greenriver.edu>
+ * @author Eugene Faison
+ * @author Abdul Rahmani
+ */
 class DataLayer
 {
+    /**
+     * @param $filters
+     * @return array
+     */
     static function getListings($filters)
     {
         $dbh = $GLOBALS['dbh'];
@@ -118,6 +133,9 @@ class DataLayer
         return $listings;
     }
 
+    /**
+     * @return array[]
+     */
     static function getFilters()
     {
 //        $dbh = $GLOBALS['dbh'];
@@ -140,6 +158,9 @@ class DataLayer
         );
     }
 
+    /**
+     * @return string[]
+     */
     static function getSorts()
     {
         return array(
