@@ -1,6 +1,6 @@
 <?php
 //Get config, set error reporting, require autoload, and start session.
-require_once $_SERVER['DOCUMENT_ROOT'].'/../config.php';
+//require_once $_SERVER['DOCUMENT_ROOT'].'/../config.php';
 ini_set('error_reporting',1);
 error_reporting(E_ALL);
 require_once('vendor/autoload.php');
