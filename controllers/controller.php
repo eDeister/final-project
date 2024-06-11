@@ -53,4 +53,11 @@ class Controller
         $view = new Template();
         echo $view->render('views/cart.html');
     }
+
+    function checkout()
+    {
+        $view = new Template();
+        echo $view->render('views/checkout.html');
+    }
+
 }

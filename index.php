@@ -35,6 +35,7 @@ $f3->route('GET /listing-@code', function($f3, $params) {
     $listing = DataLayer::getListings($filters)[$code];
     $f3->set('listing', $listing);
 
+
     $view = new Template();
     echo $view->render('views/listing.html');
 });
@@ -88,6 +89,14 @@ $f3->route('POST /cart/empty', function($f3) {
 
     // Redirect to cart page or previous page
     $f3->reroute('/cart');
+});
+
+$f3->route('GET /checkout', function($f3) {
+    //$f3->set('SESSION.cart', DataLayer :: getListings());
+
+    // Redirect to cart page or previous page
+    $view = new Template();
+    echo $view->render('views/checkout.html');
 });
 
 
