@@ -28,6 +28,7 @@ $f3->route('GET /listing-@code', function($f3, $params) {
     $listing = $dataLayer->getListings($filters)[$params['code']];
     $f3->set('listing', $listing);
 
+
     $view = new Template();
     echo $view->render('views/listing.html');
 });
@@ -100,11 +101,22 @@ $f3->route('POST /cart/empty', function($f3) {
     $f3->reroute('/cart');
 });
 
+<<<<<<< HEAD
 // Define a route for login
 $f3->route('GET|POST /login', function($f3) {
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $email = $_POST['email'];
         $password = $_POST['password'];
+=======
+$f3->route('GET /checkout', function($f3) {
+    //$f3->set('SESSION.cart', DataLayer :: getListings());
+
+    // Redirect to cart page or previous page
+    $view = new Template();
+    echo $view->render('views/checkout.html');
+});
+
+>>>>>>> 42c4aa7c9e628cac7ba5228b732376cb9c3e0c3d
 
         $user = DataLayer::getUserByEmail($email);
 

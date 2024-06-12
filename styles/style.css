@@ -187,3 +187,34 @@ main {
     border-radius: 50px;
 }
 
+
+
+
+.listings {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.checkout-summary {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-align: center;
+}
+
+#checkout-button {
+    padding: 10px 20px;
+    background-color: darkgreen;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#checkout-button:hover {
+    background-color: green;
+}
+
+
