@@ -1,67 +1,66 @@
 <?php
-//Get config, set error reporting, require autoload, and start session.
-//require_once $_SERVER['DOCUMENT_ROOT'].'/../config.php';
+// Set error reporting, require autoload, and start session.
 ini_set('error_reporting',1);
 error_reporting(E_ALL);
 require_once('vendor/autoload.php');
 require_once('controllers/controller.php');
 session_start();
 
-//Create instance of f3 base class
+// Create instance of f3 base class
 $f3 = Base::Instance();
 
-
-//Define a default route
+// Define a default route
 $f3->route('GET /', function() {
     $view = new Template();
     echo $view->render('views/home.html');
 });
 
-
-//Define a route for about page
+// Define a route for about page
 $f3->route('GET /about', function() {
     $view = new Template();
     echo $view->render('views/about.html');
 });
 
-
-//Define a route for any particular listing
+// Define a route for any particular listing
 $f3->route('GET /listing-@code', function($f3, $params) {
-    //Use data layer to query the database using $params['listing'] to get the listing data by its code.
-    $code = $params['code'];
-    $filters = array(
-        'code' => $code
-    );
-    $listing = DataLayer::getListings($filters)[$code];
+    $dataLayer = new DataLayer();
+    $filters = ['code' => $params['code']];
+    $listing = $dataLayer->getListings($filters)[$params['code']];
     $f3->set('listing', $listing);
 
     $view = new Template();
     echo $view->render('views/listing.html');
 });
 
-
 $f3->route('GET|POST /search', function($f3) {
-    if($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $query = $_POST['query'];
-        $filter = $_POST['filter'];
-        // TODO: Implement DataLayer query with filters
+    $dataLayer = new DataLayer();
+    $results = [];
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $filters = [];
+        if (!empty($_POST['query'])) {
+            $filters['name'] = $_POST['query'];
+        }
+        if (!empty($_POST['filter'])) {
+            $filters['type'] = $_POST['filter'];
+        }
+        $results = $dataLayer->getListings($filters);
     } else {
-        $results = DataLayer::getListings(null);
+        $results = $dataLayer->getListings();
     }
-    $f3->set('filterList', DataLayer::getFilters());
-    $f3->set('sortList',DataLayer::getSorts());
+
+    $f3->set('filterList', $dataLayer->getFilters());
+    $f3->set('sortList', $dataLayer->getSorts());
     $f3->set('row', 3);
     $f3->set('results', $results);
     $view = new Template();
     echo $view->render('views/search.html');
 });
 
-
-
+// Define a route for the cart
 $f3->route('GET /cart', function($f3) {
-    // TODO: Implement logic to fetch cart items
-    $cartItems = []; // This should be fetched from session or database
-
+    // Fetch cart items from session
+    $cartItems = isset($_SESSION['cartItems']) ? $_SESSION['cartItems'] : [];
     $f3->set('cartItems', $cartItems);
     $view = new Template();
     echo $view->render('views/cart.html');
@@ -69,27 +68,74 @@ $f3->route('GET /cart', function($f3) {
 
 $f3->route('POST /cart/add', function($f3) {
     $itemId = $_POST['id'];
-    // TODO: Implement logic to add item to cart
+    // Add item to cart (session)
+    if (!isset($_SESSION['cartItems'])) {
+        $_SESSION['cartItems'] = [];
+    }
+    $_SESSION['cartItems'][] = $itemId;
 
-    // Redirect to cart page or previous page
+    // Redirect to cart page
     $f3->reroute('/cart');
 });
 
 $f3->route('POST /cart/remove', function($f3) {
     $itemId = $_POST['id'];
-    // TODO: Implement logic to remove item from cart
+    // Remove item from cart (session)
+    if (isset($_SESSION['cartItems'])) {
+        $index = array_search($itemId, $_SESSION['cartItems']);
+        if ($index !== false) {
+            unset($_SESSION['cartItems'][$index]);
+        }
+    }
 
-    // Redirect to cart page or previous page
+    // Redirect to cart page
     $f3->reroute('/cart');
 });
 
 $f3->route('POST /cart/empty', function($f3) {
-    // TODO: Implement logic to empty the cart
+    // Empty the cart (session)
+    unset($_SESSION['cartItems']);
 
-    // Redirect to cart page or previous page
+    // Redirect to cart page
     $f3->reroute('/cart');
 });
 
+// Define a route for login
+$f3->route('GET|POST /login', function($f3) {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $email = $_POST['email'];
+        $password = $_POST['password'];
 
-//Run fat free
+        $user = DataLayer::getUserByEmail($email);
+
+        if ($user && password_verify($password, $user['password'])) {
+            $_SESSION['user'] = $user;
+            $f3->reroute('/');
+        } else {
+            $f3->set('error', 'Invalid email or password');
+        }
+    }
+    $view = new Template();
+    echo $view->render('views/login.html');
+});
+
+// Define a route for signup
+$f3->route('GET|POST /signup', function($f3) {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $firstName = $_POST['first_name'];
+        $lastName = $_POST['last_name'];
+        $email = $_POST['email'];
+        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+
+        if (DataLayer::createUser($firstName, $lastName, $email, $password)) {
+            $f3->reroute('/login');
+        } else {
+            $f3->set('error', 'Unable to create account');
+        }
+    }
+    $view = new Template();
+    echo $view->render('views/signup.html');
+});
+
+// Run fat free
 $f3->run();
