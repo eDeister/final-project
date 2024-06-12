@@ -1,10 +1,7 @@
 <?php
-
 /**
  * Describes a class used to fetch data to be used in the controller.
- *
- * Describes a class used to fetch either raw data or data from the database to be used in the controller.
- * Includes a function for SELECTing data from our mySQL database, and two functions for getting filters and sorts.
+ * Includes a function for SELECTing data from our mySQL database, and functions for getting filters and sorts.
  *
  * @author Ethan Deister <deister.ethan@student.greenriver.edu>
  * @author Eugene Faison
@@ -12,7 +9,6 @@
  */
 class DataLayer
 {
-
     private $_dbh;
 
     function __construct()
@@ -23,25 +19,20 @@ class DataLayer
         try {
             //Instantiate our PDO Database Object
             $this->_dbh = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
-            //echo 'Connected to database!!';
         }
         catch (PDOException $e) {
             die( $e->getMessage() );
-            //die("<p>Something went wrong!</p>");
         }
     }
 
     /**
-     * @param $filters
+     * @param array $filters
      * @return array
      */
-    function getListings($filters)
+    public function getListings($filters = [])
     {
-        $dbh = $GLOBALS['dbh'];
-
         //Define SQL query
-        $sql = 'SELECT lst.lstCode, lst.lstName, br.brandName, lst.lstPrice, lst.lstSale, lst.lstDesc, specK.specKeyName,
-                    specV.specValName 
+        $sql = 'SELECT lst.lstCode, lst.lstName, br.brandName, lst.lstPrice, lst.lstSale, lst.lstDesc, specK.specKeyName, specV.specValName 
                 FROM listing lst
                 JOIN brand br ON lst.brandID = br.brandID 
                 JOIN specValLst specVL ON lst.lstID = specVL.lstID
@@ -50,66 +41,49 @@ class DataLayer
 
         $params = [];
 
-        if(!empty($filters)) {
+        if (!empty($filters)) {
             $sql .= ' WHERE 1=1';
 
             //If the user has searched by code...
             if (!empty($filters['code'])) {
-
-                //Add the name as a clause (and parameter)
                 $sql .= ' AND lstCode = :code';
                 $params[':code'] = $filters['code'];
-
             }
             //If the user has searched by name...
             if (!empty($filters['name'])) {
-
-                //Add the name as a clause (and parameter)
                 $sql .= ' AND lstName = :name';
                 $params[':name'] = $filters['name'];
             }
             //If the user has filtered by sales
-            if(!empty($filters['sale'])){
-
-                //Add sale requirement clause
+            if (!empty($filters['sale'])) {
                 $sql .= ' AND lstSale IS NOT NULL';
             }
             //If the user has filtered by a price range
-            if(!empty($filters['price'])){
-                //Add min and max price as a clause (and params)
+            if (!empty($filters['price'])) {
                 $sql .= ' AND lstPrice BETWEEN :priceMin AND :priceMax';
                 $params[':priceMin'] = $filters['price']['min'];
                 $params[':priceMax'] = $filters['price']['max'];
             }
-
             //If the user has filtered by the instrument type
-            if(!empty($filters['type'])){
-
-                //Use a subquery to find all listings of selected instrument type
+            if (!empty($filters['type'])) {
                 $sql .= ' AND listing.instID = (
                                     SELECT instID 
                                     FROM instrument   
                                     WHERE instType = :type
-                                ) ';
+                                )';
                 $params[':type'] = $filters['type'];
             }
-
             //If the user has filtered by the brand
-            if(!empty($filters['brand'])){
-
-                //Use a subquery to find all listings
+            if (!empty($filters['brand'])) {
                 $sql .= ' AND listing.brandID = (
                                     SELECT brandID 
                                     FROM brand 
                                     WHERE brandName = :brand
-                                ) ';
+                                )';
                 $params[':brand'] = $filters['brand'];
             }
-
             //If the user has selected any specs to filter by (e.g. speaker wattage)
-            if(!empty($filters['specs'])){
-
-                //
+            if (!empty($filters['specs'])) {
                 $sql .= ' AND lst.lstID IN (
                                         SELECT lstID 
                                         FROM specValLst 
@@ -126,10 +100,8 @@ class DataLayer
                                         )';
                 $params[':specKeys'] = array_keys($filters['specs']);
                 $params[':specVals'] = array_values($filters['specs']);
-
             }
         }
-
 
         //Prepare, execute, and process the query
         $statement = $this->_dbh->prepare($sql);
@@ -143,11 +115,17 @@ class DataLayer
 
             //Add the current listing to the array if it hasn't been added already
             if (!array_key_exists($lstCode, $listings)) {
-                $listings[$lstCode] = new Listing($row['lstCode'],$row['lstName'],$row['brandName'],$row['lstPrice'],
-                    $row['lstDesc'],$row['lstSale'], array());
-                //Otherwise, this means that the listing just needs more specifications added to its specs assoc arr
+                $listings[$lstCode] = new Listing(
+                    $row['lstCode'],
+                    $row['lstName'],
+                    $row['brandName'],
+                    $row['lstPrice'],
+                    $row['lstDesc'],
+                    $row['lstSale'],
+                    []
+                );
             }
-            $listings[$lstCode]->addSpec($row['specKeyName'],$row['specValName']);
+            $listings[$lstCode]->addSpec($row['specKeyName'], $row['specValName']);
         }
 
         return $listings;
@@ -156,42 +134,26 @@ class DataLayer
     /**
      * @return array[]
      */
-    static function getFilters()
+    public static function getFilters()
     {
-//        $dbh = $GLOBALS['dbh'];
-        return array(
-            'Brand' => array(
-                'Roland',
-                'Fender',
-                'Yamaha',
-                'Zildjian',
-                'Korg',
-
-            ),
-            'Type' => array(
-                'Piano',
-                'Guitar',
-                'Violin',
-                'Drums',
-                'Synth'
-            ),
-        );
+        return [
+            'Brand' => ['Roland', 'Fender', 'Yamaha', 'Zildjian', 'Korg'],
+            'Type' => ['Piano', 'Guitar', 'Violin', 'Drums', 'Synth']
+        ];
     }
 
     /**
      * @return string[]
      */
-    static function getSorts()
+    public static function getSorts()
     {
-        return array(
+        return [
             'Name: A-Z',
             'New Arrivals',
             'Price: Ascending',
             'Price: Descending'
-        );
+        ];
     }
-
-
 
     // Get user by email
     public static function getUserByEmail($email) {
