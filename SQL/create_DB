@@ -53,3 +53,15 @@ CREATE TABLE listing
 	FOREIGN KEY (brandID) REFERENCES brand(brandID),
 	FOREIGN KEY (instID) REFERENCES instrument(instID)
 );
+
+
+
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

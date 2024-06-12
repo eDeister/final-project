@@ -12,11 +12,30 @@
  */
 class DataLayer
 {
+
+    private $_dbh;
+
+    function __construct()
+    {
+        // Require my PDO database connection credentials
+        require_once $_SERVER['DOCUMENT_ROOT'].'/../config.php';
+
+        try {
+            //Instantiate our PDO Database Object
+            $this->_dbh = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
+            //echo 'Connected to database!!';
+        }
+        catch (PDOException $e) {
+            die( $e->getMessage() );
+            //die("<p>Something went wrong!</p>");
+        }
+    }
+
     /**
      * @param $filters
      * @return array
      */
-    static function getListings($filters)
+    function getListings($filters)
     {
         $dbh = $GLOBALS['dbh'];
 
@@ -111,8 +130,9 @@ class DataLayer
             }
         }
 
+
         //Prepare, execute, and process the query
-        $statement = $dbh->prepare($sql);
+        $statement = $this->_dbh->prepare($sql);
         $statement->execute($params);
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -169,5 +189,27 @@ class DataLayer
             'Price: Ascending',
             'Price: Descending'
         );
+    }
+
+
+
+    // Get user by email
+    public static function getUserByEmail($email) {
+        $dbh = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
+        $stmt = $dbh->prepare("SELECT * FROM users WHERE email = :email");
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    // Create a new user
+    public static function createUser($firstName, $lastName, $email, $password) {
+        $dbh = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
+        $stmt = $dbh->prepare("INSERT INTO users (first_name, last_name, email, password) VALUES (:first_name, :last_name, :email, :password)");
+        $stmt->bindParam(':first_name', $firstName);
+        $stmt->bindParam(':last_name', $lastName);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':password', $password);
+        return $stmt->execute();
     }
 }

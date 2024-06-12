@@ -5,11 +5,14 @@
  */
 class Controller
 {
-    private static $_f3;
+    private $_f3;
 
-    function __Construct($f3)
+    private $_data;
+
+    function __construct($f3)
     {
         $this->_f3 = $f3;
+        $this->_data = new DataLayer();
     }
 
     function home()
@@ -27,7 +30,7 @@ class Controller
     function search()
     {
         //Populate an array of test/example listings;
-        $testListings = DataLayer::getListings('','');
+        $testListings = $this->_data->getListings('','');
 
         //Set number of listings per row, and a variable for the listings
         $this->_f3->set('row',3);
