@@ -101,6 +101,10 @@ class DataLayer
                 $params[':specKeys'] = array_keys($filters['specs']);
                 $params[':specVals'] = array_values($filters['specs']);
             }
+            if (!empty($filters['limit'])) {
+                $sql .= ' LIMIT :limit';
+                $params[':limit'] = $filters['limit'];
+            }
         }
 
         //Prepare, execute, and process the query
@@ -122,13 +126,63 @@ class DataLayer
                     $row['lstPrice'],
                     $row['lstDesc'],
                     $row['lstSale'],
-                    []
+                    [],
+                    $row['instType'],
+                    $row['timeAdded']
                 );
             }
             $listings[$lstCode]->addSpec($row['specKeyName'], $row['specValName']);
         }
 
         return $listings;
+    }
+
+    public function removeListingDB($code)
+    {
+        $sql = '
+            DELETE * FROM specValLst 
+            WHERE lstID = (
+                SELECT lstID FROM listing 
+                WHERE lstCode = :code
+            );
+            DELETE * FROM listing 
+            WHERE lstID = :code;
+            ';
+
+        $stmt = $this->_dbh->prepare($sql);
+        $stmt->bindParam(':code', $code);
+        $stmt->execute();
+    }
+
+    public function addListingDB($listing)
+    {
+        $sql = '
+            INSERT INTO listing
+            VALUES (
+                :code, 
+                :name, 
+                :price, 
+                :sale, 
+                :desc, 
+                (
+                    SELECT brandID FROM brand
+                    WHERE brandName = :brand
+                ), 
+                (
+                    SELECT instID FROM instrument
+                    WHERE instType = :type
+                )
+            )
+        ';
+        $stmt = $this->_dbh->prepare($sql);
+        $stmt->bindParam(':code',$listing->getCode());
+        $stmt->bindParam(':name',$listing->getName());
+        $stmt->bindParam(':price',$listing->getPrice());
+        $stmt->bindParam(':sale',$listing->getSale());
+        $stmt->bindParam(':desc',$listing->getDesc());
+        $stmt->bindParam(':brand',$listing->getBrand());
+        $stmt->bindParam(':type',$listing->getType());
+        $stmt->execute();
     }
 
     /**
@@ -156,18 +210,18 @@ class DataLayer
     }
 
     // Get user by email
-    public static function getUserByEmail($email) {
-        $dbh = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
-        $stmt = $dbh->prepare("SELECT * FROM users WHERE email = :email");
+    public function getUserByEmail($email) {
+        $stmt = $this->_dbh->prepare("SELECT * FROM users 
+                                            WHERE email = :email");
         $stmt->bindParam(':email', $email);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     // Create a new user
-    public static function createUser($firstName, $lastName, $email, $password) {
-        $dbh = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
-        $stmt = $dbh->prepare("INSERT INTO users (first_name, last_name, email, password) VALUES (:first_name, :last_name, :email, :password)");
+    public function createUser($firstName, $lastName, $email, $password) {
+        $stmt = $this->_dbh->prepare("INSERT INTO users (first_name, last_name, email, password) 
+                                            VALUES (:first_name, :last_name, :email, :password)");
         $stmt->bindParam(':first_name', $firstName);
         $stmt->bindParam(':last_name', $lastName);
         $stmt->bindParam(':email', $email);

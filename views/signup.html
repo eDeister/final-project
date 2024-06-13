@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
-</head>
-<body>
-<div class="container">
+<include href="views/includes/header.html"></include>
+<include href="views/includes/navbar.html"></include>
+<div class="container text-center">
     <h2>Create Account</h2>
     <form action="/signup" method="post">
         <div class="form-group">
@@ -27,8 +21,9 @@
         </div>
         <button type="submit">Sign Up</button>
     </form>
-    <p>Already have an account? <a href="/login">Log In</a></p>
+    <p>Already have an account? <a href="login">Log In</a></p>
     <p>{{ @error }}</p>
 </div>
 </body>
 </html>
+<include href="views/includes/footer.html"></include>

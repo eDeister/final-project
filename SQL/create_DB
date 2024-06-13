@@ -8,26 +8,26 @@
 CREATE TABLE instrument
 (
 	instID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	instType VARCHAR(20)
+	instType VARCHAR(255) NOT NULL UNIQUE
 );
 
 CREATE TABLE brand
 (
 	brandID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	brandName VARCHAR(20)
+	brandName VARCHAR(255) NOT NULL UNIQUE
 );
 
 CREATE TABLE specKey
 (
 	specKeyID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	specKeyName VARCHAR(20)
+	specKeyName VARCHAR(255) NOT NULL UNIQUE
 );
 
 CREATE TABLE specVal
 (
 	specValID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	specValName VARCHAR(20),
-    specKeyID INT,
+	specValName VARCHAR(255) NOT NULL,
+    specKeyID INT NOT NULL,
 	FOREIGN KEY (specKeyID) REFERENCES specKey(specKeyID)
 );
 
@@ -35,33 +35,49 @@ CREATE TABLE specValLst
 (
 	lstID INT NOT NULL,
 	specValID INT NOT NULL,
-	FOREIGN KEY (specID) REFERENCES listing(specID),
+	FOREIGN KEY (lstID) REFERENCES listing(lstID),
 	FOREIGN KEY (specValID) REFERENCES specVal(specValID),
-	PRIMARY KEY (specID, specValID)
+	PRIMARY KEY (lstID, specValID)
 );
 
 CREATE TABLE listing
 (
 	lstID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	lstCode VARCHAR(10),
-	lstName VARCHAR(30),
-	lstPrice DECIMAL(6,2),
-	lstSale DECIMAL(2,2),
+	lstCode VARCHAR(255) NOT NULL UNIQUE,
+	lstName VARCHAR(255) NOT NULL,
+	lstPrice DECIMAL(6,2) NOT NULL,
+	lstSale DECIMAL(2,2) NOT NULL,
 	lstDesc TEXT(500),
-    brandID INT,
-    instID INT,
+	timeAdded DATETIME DEFAULT NOW(),
+    brandID INT NOT NULL,
+    instID INT NOT NULL,
 	FOREIGN KEY (brandID) REFERENCES brand(brandID),
 	FOREIGN KEY (instID) REFERENCES instrument(instID)
 );
 
-
-
-
-CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE users
+(
+    userID INT AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
+    isAdmin BIT NOT NULL DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE orders
+(
+    ordID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    timeAdded DATETIME DEFAULT NOW(),
+    userID INT NOT NULL,
+    FOREIGN KEY (userID) REFERENCES users(userID)
+);
+
+CREATE TABLE ordLst
+(
+    ordID INT NOT NULL,
+    lstID INT NOT NULL,
+    FOREIGN KEY (ordID) REFERENCES orders(ordID),
+    FOREIGN KEY (lstID) REFERENCES listing(lstID)
 );

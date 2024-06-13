@@ -21,6 +21,8 @@ class Listing
     private $_sale;
     private $_desc;
     private $_specs;
+    private $_type;
+    private $_timestamp;
 
     /**
      * Constructs a new Listing with all data values set.
@@ -33,7 +35,7 @@ class Listing
      * @param float $sale The decimal value of the percentage off the price of the instrument
      * @param array $specs An array of the specifications of the instrument
      */
-    public function __construct($code, $name, $brand, $price, $desc, $sale=1, $specs=array())
+    public function __construct($code, $name, $brand, $price, $desc, $sale=1, $specs=array(), $type, $timestamp)
     {
         $this->_code = $code;
         $this->_name = $name;
@@ -42,6 +44,8 @@ class Listing
         $this->_desc = $desc;
         $this->_sale = $sale;
         $this->_specs = $specs;
+        $this->_type = $type;
+        $this->_timestamp = $timestamp;
     }
 
     /**
@@ -164,6 +168,29 @@ class Listing
         $this->_specs[$specKey] = $specValue;
     }
 
+    public function getType()
+    {
+        return $this->_type;
+    }
 
+    public function setType($type)
+    {
+        $this->_type = $type;
+    }
 
+    /**
+     * @return mixed
+     */
+    public function getTimestamp()
+    {
+        return $this->_timestamp;
+    }
+
+    /**
+     * @param mixed $timestamp
+     */
+    public function setTimestamp($timestamp)
+    {
+        $this->_timestamp = $timestamp;
+    }
 }

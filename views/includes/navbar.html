@@ -1,4 +1,3 @@
-<include href="views/includes/header.html" xmlns="http://www.w3.org/1999/html"></include>
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="{{ @BASE }}">Phrygian</a>
@@ -16,14 +15,25 @@
             </ul>
             <form class="form-inline my-2 my-lg-0 justify-content-end" id="search-form" action="search" method="POST">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search for instruments..." aria-label="Search" aria-describedby="search-addon" id="search-query">
-                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <input type="text" class="form-control" placeholder="Search for instruments..." aria-label="Search"
+                           aria-describedby="search-addon" name="query" id="search-query">
+                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
                         <img src="images/sorticon.png" alt="Search Logo" style="width: 30px;" id="sort-logo">
                     </button>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="#" data-filter="price-asc">Price: Low to High</a>
-                        <a class="dropdown-item" href="#" data-filter="price-desc">Price: High to Low</a>
-                        <a class="dropdown-item" href="#" data-filter="new-arrivals">New Arrivals</a>
+                    <div class="dropdown-menu dropdown-menu-end" id="sort-dropdown-div">
+                        <div class="form-check mx-3">
+                            <input type="radio" class="form-check-input" name="sort" value="price-asc" id="price-asc">
+                            <label class="form-check-label radio-inline" for="price-asc">Price: Low to High</label><br>
+                        </div>
+                        <div class="form-check mx-3">
+                            <input type="radio" class="form-check-input" name="sort" value="price-desc" id="price-desc">
+                            <label class="form-check-label radio-inline" for="price-desc">Price: High to Low</label><br>
+                        </div>
+                        <div class="form-check mx-3">
+                            <input type="radio" class="form-check-input" name="sort" value="new-arrivals" id="new-arrivals">
+                            <label class="form-check-label radio-inline" for="new-arrivals">New Arrivals</label><br>
+                        </div>
                     </div>
                     <button class="btn btn-outline-success" type="submit" id="search-button">
                         <img src="images/searchIcon.png" alt="Search Logo" style="width: 30px;" id="search-logo">
@@ -31,20 +41,24 @@
                 </div>
             </form>
             <div class="dropdown">
-                <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
                     <img src="images/cart.png" alt="Cart icon" id="cart-icon" style="width: 30px;" class="image">
                 </button>
                 <div class="dropdown-menu" aria-labelledby="cart-icon">
-                    <repeat group="{{ @SESSION.cart }}" value="{{ @item }}">
-                        <a class="dropdown-item" href="#">Item: {{ @item.name }}</a>
-                    </repeat>
+                    <div id="cart-listings">
+                        <repeat group="{{ @SESSION.cart }}" value="{{ @listing }}">
+                            <a class="dropdown-item" href="#">{{ @listing->getName() }} - {{ @listing->getBrand() }} |
+                                {{ @listing->getPrice * @listing->getSale() }}</a>
+                        </repeat>
+                    </div>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item text-center" href="checkout">Checkout</a>
                     <a class="dropdown-item text-center" href="#">Empty Cart</a>
                 </div>
             </div>
             <div class="dropdown">
-                <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img src="images/login.jpg" alt="Account icon" id="account-icon" style="width: 30px;" class="image">
                 </button>
                 <div class="dropdown-menu" aria-labelledby="account-icon">

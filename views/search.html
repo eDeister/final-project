@@ -3,37 +3,62 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-2">
+        <div class="col-2 filter-sort-div">
             <ul>
+                <!--Displays sorts-->
                 <repeat group="{{ @sortList }}" value="{{ @sortType }}">
-                    <div class="form-check">
+                    <li class="form-check">
                         <input class="form-check-input" type="checkbox" id="{{ @sortType }}-check" name="sort">
                         <label class="form-check-label" for="{{ @sortType }}-check">{{ @sortType }}</label>
-                    </div>
+                    </li>
                 </repeat>
+                <!--Display filters-->
                 <repeat group="{{ @filterList }}" key="{{ @filterType }}" value="{{ @filterVal }}">
-                    <div class="form-check">
+                    <li class="form-check">
                         <input class="form-check-input" type="checkbox" id="{{ @filterType }}-check"
                                onclick="selectAllChildFilters('{{ @filterType }}')" name="filter-type"
                                value="{{ @filterType }}">
                         <label class="form-check-label" for="{{ @filterType }}-check">{{ @filterType }}</label>
-                    </div>
-                    <ul>
-                        <repeat group="{{ @filterVal }}" value="{{ @val }}">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="{{ @val }}-check"
-                                       name="filter-{{ @filterType }}-value">
-                                <label class="form-check-label" for="{{ @val }}-check">
-                                    {{ ucwords(@val) }}
-                                </label>
-                            </div>
-                        </repeat>
-                    </ul>
+                    </li>
+                    <li class="form-check">
+                        <ul>
+                            <repeat group="{{ @filterVal }}" value="{{ @val }}">
+                                <li class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="{{ @val }}-check"
+                                           name="filter-{{ @filterType }}-value">
+                                    <label class="form-check-label" for="{{ @val }}-check">
+                                        {{ ucwords(@val) }}
+                                    </label>
+                                </li>
+                            </repeat>
+                        </ul>
+                    </li>
                 </repeat>
             </ul>
             <button class="btn btn-light ms-4" onclick="applyFilters()">Apply</button>
+            <!--Display admin controls-->
+            <check if="{{ @SESSION.user instanceof Admin }}">
+                <div class="m-3">
+                    <label for="input-code">
+                        Code: <input type="text" name="code" id="input-code">
+                    </label>
+                    <label for="input-name">
+                        Name: <input type="text" name="name" id="input-name">
+                    </label>
+                    <label for="input-brand">
+                        Brand: <input type="text" name="brand" id="input-brand">
+                    </label>
+                    <label for="input-price">
+                        Price: <input type="text" name="price" id="input-price">
+                    </label>
+                    <label for="input-sale">
+                        Sale: <input type="text" name="sale" id="input-sale">
+                    </label>
+                    <button class="btn btn-light my-3" onclick="addListing()">Add</button>
+                </div>
+            </check>
         </div>
-        <div class="col-10" id="search-listings">
+        <div class="col-10" id="listings-div">
             <include href="views/includes/get-listings.html"></include>
         </div>
     </div>

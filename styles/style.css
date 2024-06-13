@@ -8,12 +8,13 @@ body, html {
 
 }
 
-header {
-    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background for navbar */
-}
+/*header {*/
+/*    background: rgba(0, 0, 0, 0.5); !* Semi-transparent background for navbar *!*/
+/*}*/
 
 .navbar {
     padding: 1rem 0;
+    background: rgba(0,0,0,0.5);
 }
 
 .navbar-light .navbar-nav .nav-link {
@@ -40,42 +41,51 @@ header {
     color: black;
 }
 
-
-p {
-    padding: 10px;
-    line-height: 1.6; /* Adjust line spacing for better readability */
-}
-h1, h2 {
-    margin-top: 20px;
-    line-height: 1.4;
-}
-
-body {
-    color: #ffffff; /* White text */
-    background-color: #000000; /* Optional: Dark background if necessary */
-}
-
-
-body {
-    font-family: 'Arial', sans-serif; /* A clean, simple font family */
-    font-size: 16px; /* Adjust size as needed */
-}
-
-
-p, h1, h2, ul {
-    text-shadow: 1px 1px 2px black; /* Adds a dark shadow for better legibility */
+.filter-sort-div {
     color: white;
 }
-p {
-    padding: 10px;
-    line-height: 1.6; /* Adjust line spacing for better readability */
-    color: white;
+
+.listing-card * {
+    color: black;
+    font-weight: bold;
 }
-h1, h2 {
-    color: white;
-    margin-top: 20px;
-    line-height: 1.4;
-}
+
+
+/*p {*/
+/*    padding: 10px;*/
+/*    line-height: 1.6; !* Adjust line spacing for better readability *!*/
+/*}*/
+/*h1, h2 {*/
+/*    margin-top: 20px;*/
+/*    line-height: 1.4;*/
+/*}*/
+
+/*body {*/
+/*    color: #ffffff; !* White text *!*/
+/*    background-color: #000000; !* Optional: Dark background if necessary *!*/
+/*}*/
+
+
+/*body {*/
+/*    font-family: 'Arial', sans-serif; !* A clean, simple font family *!*/
+/*    font-size: 16px; !* Adjust size as needed *!*/
+/*}*/
+
+
+/*p, h1, h2, ul {*/
+/*    text-shadow: 1px 1px 2px black; !* Adds a dark shadow for better legibility *!*/
+/*    color: white;*/
+/*}*/
+/*p {*/
+/*    padding: 10px;*/
+/*    line-height: 1.6; !* Adjust line spacing for better readability *!*/
+/*    color: white;*/
+/*}*/
+/*h1, h2 {*/
+/*    color: white;*/
+/*    margin-top: 20px;*/
+/*    line-height: 1.4;*/
+/*}*/
 
 .container {
     background: rgba(0, 0, 0, 0.8); /* Dark overlay with 60% opacity */
@@ -87,6 +97,9 @@ main {
     margin-top: 50px; /* Adjust based on your actual layout needs */
 }
 
+#sort-dropdown-div {
+    color: white;
+}
 
 
 
@@ -95,7 +108,6 @@ main {
 
 
 .navbar {
-    font-family: cursive;
     background-color: #222;
     padding: 10px;
 }

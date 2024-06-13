@@ -7,18 +7,31 @@
     </check>
 
     <div class="col-{{ 12/@row }}" id="{{ @listing->getCode().'-col' }}">
-        <a href="listing-{{ @listing->getCode() }}">
-            <div class="card m-2 p-2 h-100" id="{{ @listing->getCode().'-card' }}">
-                <img src="images/listings/{{ @listing->getCode().'.jpg' }}" class="image rounded card-img-top mt-5"
+        <div class="card d-flex listing-card m-2 p-2 h-100" id="{{ @listing->getCode().'-card' }}">
+            <check if="{{ @SESSION.user instanceof Admin }}">
+                <div class="dropdown">
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false"></a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#" onclick="removeListing('{{ @listing->getCode()}}')">Remove Listing</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="updateListing('{{ @listing->getCode()}}')">Update Listing</a></li>
+                    </ul>
+                </div>
+            </check>
+            <a href="listing-{{ @listing->getCode() }}">
+                <img src="images/listings/{{ @listing->getCode().'.jpg' }}" class="image rounded card-img-top mt-2"
                      alt="Image of {{ @listing->getBrand() }}'s {{ @listing->getName() }}">
-                <div class="card-body d-flex align-items-center">
-                    <p class="card-title">{{ @listing->getName() }} | {{ @listing->getBrand() }}</p>
+                <div class="card-body d-flex align-items-center justify-content-center">
+                    <p class="card-title mt-1">{{ @listing->getName() }} | {{ @listing->getBrand() }}</p>
                     <!--                    If there is a sale, display sale price, otherwise display regular price-->
-                    <p class="card-text">${{ @listing->getSale() ? @listing->getPrice() * @listing->getSale()
+                    <p class="card-text mx-2">${{ @listing->getSale() ? @listing->getPrice() * @listing->getSale()
                         : @listing->getPrice() }}</p>
                 </div>
+            </a>
+            <div class="d-flex align-items-end">
+                <button class="btn btn-primary" onclick="addToCart('{{ @listing->getCode() }}')" type="button">Add to Cart</button>
             </div>
-        </a>
+        </div>
     </div>
     <!--Split by # of listing per row-->
     <check if="{{ @ctr % @row == 0}}">
