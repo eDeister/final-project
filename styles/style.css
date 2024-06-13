@@ -101,9 +101,23 @@ main {
     color: white;
 }
 
+.login-page {
+    color: white;
+}
+
+.signup-page {
+    color: white;
+}
 
 
 
+#sort-logo {
+    background-color: lightgray;
+}
+
+.add-to-cart {
+    color: white;
+}
 
 
 

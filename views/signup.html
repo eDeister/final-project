@@ -1,24 +1,28 @@
 <include href="views/includes/header.html"></include>
 <include href="views/includes/navbar.html"></include>
-<div class="container text-center">
+<div class="container text-center signup-page">
     <h2>Create Account</h2>
-    <form action="/signup" method="post">
-        <div class="form-group">
-            <label for="first_name">First Name</label>
-            <input type="text" name="first_name" id="first_name" required>
+    <form action="signup" method="post">
+        <div class="input-group">
+            <span class="input-group-text" id="fname-label">First Name</span>
+            <input type="text" name="first_name" id="first_name" class="form-control" aria-describedby="fname-label" required>
         </div>
-        <div class="form-group">
-            <label for="last_name">Last Name</label>
-            <input type="text" name="last_name" id="last_name" required>
+        <div class="is-invalid m-2">{{ !empty(@fnameError) ? @fnameError : '' }}</div>
+        <div class="input-group">
+            <span class="input-group-text" id="lname-label">Last Name</span>
+            <input type="text" name="last_name" id="last_name" class="form-control" aria-describedby="lname-label" required>
         </div>
-        <div class="form-group">
-            <label for="email">Email Address</label>
-            <input type="email" name="email" id="email" required>
+        <div class="is-invalid m-2">{{ !empty(@lnameError) ? @lnameError : '' }}</div>
+        <div class="input-group">
+            <span class="input-group-text" id="email-label">Email Address</span>
+            <input type="email" name="email" id="email" class="form-control" aria-describedby="email-label" required>
         </div>
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password" required>
+        <div class="is-invalid m-2">{{ !empty(@emailError) ? @emailError : '' }}</div>
+        <div class="input-group">
+            <span class="input-group-text" id="password-label">Password</span>
+            <input type="password" name="password" id="password" class="form-control" aria-describedby="password-label" required>
         </div>
+        <div class="is-invalid m-2">{{ !empty(@passError) ? @passError : '' }}</div>
         <button type="submit">Sign Up</button>
     </form>
     <p>Already have an account? <a href="login">Log In</a></p>

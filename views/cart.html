@@ -1,4 +1,4 @@
-<repeat group="{{ @SESSION.cart }}" value="{{ @listing }}">
+<repeat group="{{ @SESSION.user->getCart() }}" value="{{ @listing }}">
     <a class="dropdown-item" href="#">{{ @listing->getName() }} - {{ @listing->getBrand() }} |
-        {{ @listing->getPrice * @listing->getSale() }}</a>
+        {{ @listing->getAbsolutePrice() }}</a>
 </repeat>

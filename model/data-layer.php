@@ -228,4 +228,50 @@ class DataLayer
         $stmt->bindParam(':password', $password);
         return $stmt->execute();
     }
+
+    //TODO: Finish writing function
+    public function placeOrder($email, $listings) {
+        $sql = '
+            INSERT INTO orders (userID)
+            VALUES (
+                SELECT userID
+                FROM users
+                WHERE email = :email
+            );
+        ';
+
+        $stmt = $this->_dbh->prepare($sql);
+        $stmt->bindParam(':email',$email);
+        $stmt->execute();
+
+        $ordId = $this->_dbh->lastInsertId();
+        foreach($listings as $listing) {
+            $sql = '
+                INSERT INTO ordLst (ordID, lstID)
+                VALUES (:ordID, 
+                        (SELECT lstID FROM listing
+                        WHERE lstCode = :lstCode)
+                );
+            ';
+            $stmt = $this->_dbh->prepare($sql);
+            $stmt->bindParam(':ordID',$ordId, PDO::PARAM_INT);
+            $stmt->bindParam(':lstCode', $listing->getCode());
+            $stmt->execute();
+        }
+    }
+
+    public function validName($name)
+    {
+        return preg_match('/^[a-zA-Z]+$/', $name) === 1;
+    }
+
+    public function validEmail($email)
+    {
+        return filter_var($email, FILTER_VALIDATE_EMAIL);
+    }
+
+    public function validPassword($password)
+    {
+        return preg_match('/^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[A-Z]).{8,}$/', $password);
+    }
 }

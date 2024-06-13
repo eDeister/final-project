@@ -8,8 +8,9 @@ class Customer extends User
         parent::__construct($cart, $email, $fname, $lname);
     }
 
-    function placeOrder()
+    function placeOrder($data)
     {
         $cart = $this->getCart();
+        $data->placeOrder($this->getEmail(),$cart);
     }
 }

@@ -19,6 +19,7 @@
             <h3>{{ @listing->getBrand() }}</h3>
             <br>
             <p>{{ @listing->getDesc() }}</p>
+            <button class="btn btn-primary add-to-cart" onclick="addToCart('{{ @listing->getCode() }}')" type="button">Add to Cart</button>
 
         </div>
     </div>

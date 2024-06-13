@@ -24,12 +24,11 @@
                 <div class="card-body d-flex align-items-center justify-content-center">
                     <p class="card-title mt-1">{{ @listing->getName() }} | {{ @listing->getBrand() }}</p>
                     <!--                    If there is a sale, display sale price, otherwise display regular price-->
-                    <p class="card-text mx-2">${{ @listing->getSale() ? @listing->getPrice() * @listing->getSale()
-                        : @listing->getPrice() }}</p>
+                    <p class="card-text mx-2">${{ @listing->getAbsolutePrice() }}</p>
                 </div>
             </a>
             <div class="d-flex align-items-end">
-                <button class="btn btn-primary" onclick="addToCart('{{ @listing->getCode() }}')" type="button">Add to Cart</button>
+                <button class="btn btn-primary add-to-cart" onclick="addToCart('{{ @listing->getCode() }}')" type="button">Add to Cart</button>
             </div>
         </div>
     </div>

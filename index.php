@@ -20,22 +20,19 @@ $f3->route('GET /about', function() {
 });
 
 // Define a route for any particular listing
-$f3->route('GET /listing-@code', function($params) {
-    $GLOBALS['con']->listing($params);
+$f3->route('GET /listing-@code', function($f3,$params) {
+    $GLOBALS['con']->listing($params['code']);
 });
 
 // Define a route for the search page
-$f3->route('GET|POST /search', function($f3) {
-    //TODO: Test data, remove when finished
-    $f3->set('SESSION.user', new Admin('','','',''));
-//    $f3->set('SESSION.user',null);
+$f3->route('GET|POST /search', function() {
     $GLOBALS['con']->search();
 });
 
 //TODO: Add jQuery functionality for cart
 
 // Define routes for the cart
-$f3->route('GET /cart', function() {
+$f3->route('POST /cart', function() {
     $GLOBALS['con']->cart();
 });
 
@@ -66,7 +63,7 @@ $f3->route('GET|POST /signup', function() {
 //TODO: Make sure checkout is working and orders are added to DB
 
 // Define a route for checkout
-$f3->route('GET /checkout', function() {
+$f3->route('GET|POST /checkout', function() {
     $GLOBALS['con']->checkout();
 });
 

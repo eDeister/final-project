@@ -3,16 +3,24 @@
 
 
 <div class="container">
-    <h1 class="text-center" style="color: white">Checkout</h1>
+    <h1 class="text-center text-white">Checkout</h1>
     <div id="listings" class="listings"></div>
-    <div id="checkout-summary" class="checkout-summary">
-        <h2>Your Cart</h2>
-        <div id="summary-items"></div>
-            <repeat group="{{ @SESSION.cart }}" value="{{ @listing }}"></repeat>
-        <p id="total-cost">Total Cost: $ {{ @listing->getPrice }}</p>
-        <button id="checkout-button">Checkout</button>
-    </div>
-    </div>
+    <form id="checkout-summary" class="checkout-summary" action="#" method="POST">
+        {{ @posted ? '' : '<h2>Your Cart</h2>' }}
+            <check if="{{ @posted }}" >
+                <true>
+                    <h4>Success! Order placed!</h4>
+                </true>
+                <false>
+                    <repeat group="{{ @SESSION.user->getCart() }}" value="{{ @listing }}">
+                        <p>{{ @listing->getName() }} - {{ @listing->getBrand() }} | ${{ @listing->getAbsolutePrice() }}</p>
+                    </repeat>
+                    <h4 id="total-cost">Total Cost: ${{ number_format(@total,2) }}</h4>
+                    <input type="submit" id="checkout-button" value="Place Order">
 
-<script src="script/checkoutScript.js"></script>
+                </false>
+            </check>
+    </form>
+</div>
+
 <include href="views/includes/footer.html"></include>

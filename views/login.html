@@ -1,16 +1,19 @@
 <include href="views/includes/header.html"></include>
 <include href="views/includes/navbar.html"></include>
-    <div class="container text-center">
+    <div class="container text-center login-page">
         <h2>Login</h2>
-        <form action="/login" method="post">
-            <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" name="email" id="email" required>
+        <form action="login" method="post">
+            <div class="input-group">
+                <span class="input-group-text" id="email-label">Email Address</span>
+                <input type="email" name="email" id="email" class="form-control"  aria-describedby="email-label" required>
             </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" name="password" id="password" required>
+            <div class="is-invalid m-2">{{ !empty(@emailError) ? @emailError : '' }}</div>
+            <div class="input-group">
+                <span class="input-group-text" id="pass-label">Password</span>
+                <input type="password" name="password" id="password" class="form-control" aria-describedby="pass-label"  required>
             </div>
+            <div class="is-invalid m-2">{{ !empty(@passError) ? @passError : '' }}</div>
+            <div class="is-invalid m-2">{{ !empty(@passIncorrectError) ? @passIncorrectError : '' }}</div>
             <button type="submit">Log In</button>
         </form>
         <p>Don't have an account? <a href="signup">Sign Up</a></p>

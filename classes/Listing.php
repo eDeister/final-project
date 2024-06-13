@@ -110,6 +110,11 @@ class Listing
         $this->_price = $price;
     }
 
+    public function getAbsolutePrice()
+    {
+        return number_format(($this->_price * $this->_sale),2);
+    }
+
     /**
      * @return float Returns the sale percentage off
      */

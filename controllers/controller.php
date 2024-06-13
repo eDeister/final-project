@@ -67,14 +67,12 @@ class Controller
         echo $view->render('views/search.html');
     }
 
-    function listing($params)
+    function listing($code)
     {
-        $code = $params['code'];
         $filters = ['code' => $code];
         $listing = $this->_data->getListings($filters);
         $this->_f3->set('listing', $listing[$code]);
-        echo var_dump($listing);
-
+        
         $view = new Template();
         echo $view->render('views/listing.html');
 
@@ -83,11 +81,11 @@ class Controller
     function cart()
     {
         // Fetch cart items from session
-        $cartItems = $this->_f3->get('SESSION.cart');
+        $cart = $this->_f3->get('SESSION.user')->getCart();
         $code = $_POST['code'];
-        $listing = $this->_data->getListings($code);
-        $cartItems[$listing[$code]->getCode()] = $listing[$code];
-        $this->_f3->set('cartItems', $cartItems);
+        $listing = $this->_data->getListings(['code'=>$code]);
+        $cart[$code] = $listing[$code];
+        $this->_f3->get('SESSION.user')->setCart($cart);
         $view = new Template();
         echo $view->render('views/cart.html');
     }
@@ -123,30 +121,41 @@ class Controller
     function cartEmpty()
     {
         // Empty the cart (session)
-        $this->_f3->clear('SESSION.cart');
-
-        // Redirect to cart page
-        $this->_f3->reroute('/cart');
+        $this->_f3->get('SESSION.user')->setCart(null);
     }
 
     function login()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            //TODO: Validate data using datalayer
+            // Make sure that the data gets sent to DB
             $email = $_POST['email'];
             $password = $_POST['password'];
+            $error = false;
 
-            $user = $this->_data->getUserByEmail($email);
+            if (!$this->_data->validEmail($email)) {
+                $this->_f3->set('emailError', 'Email is invalid.');
+                $error = true;
+            }
+            if (!$this->_data->validPassword($password)) {
+                $this->_f3->set('passError', 'Password is invalid.');
+                $error = true;
+            }
 
-            if ($user && password_verify($password, $user['password'])) {
-                $cart = $this->_f3->get('cart');
-                if ($user['isAdmin'] == 1) {
-                    $this->_f3->set('SESSION.user', new Admin($cart,$user['email'],$user['fname'],$user['lname']));
+            if (!$error) {
+                $user = $this->_data->getUserByEmail($email);
+
+                if (password_verify($password, $user['password'])) {
+                    $cart = $this->_f3->get('SESSION.cart');
+                    if ($user['isAdmin'] == 1) {
+                        $this->_f3->set('SESSION.user', new Admin($cart,$user['email'],$user['fname'],$user['lname']));
+                    } else {
+                        $this->_f3->set('SESSION.user', new Customer($cart,$user['email'],$user['fname'],$user['lname']));
+                    }
+                    $this->_f3->reroute('/');
                 } else {
-                    $this->_f3->set('SESSION.user', new Customer($cart,$user['email'],$user['fname'],$user['lname']));
+                    $this->_f3->set('passIncorrectError', 'Incorrect password.');
                 }
-                $this->_f3->reroute('/');
-            } else {
-                $this->_f3->set('error', 'Invalid email or password');
             }
         }
         $view = new Template();
@@ -156,15 +165,34 @@ class Controller
     function signup()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            //TODO: Make sure that the data gets sent to DB
             $firstName = $_POST['first_name'];
             $lastName = $_POST['last_name'];
             $email = $_POST['email'];
-            $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+            $password = $_POST['password'];
+            $error = false;
 
-            if ($this->_data->createUser($firstName, $lastName, $email, $password)) {
-                $this->_f3->reroute('/login');
-            } else {
-                $this->_f3->set('error', 'Unable to create account');
+            if (!$this->_data->validName($firstName)) {
+                $this->_f3->set('fnameError', 'First name is invalid.');
+                $error = true;
+            }
+            if (!$this->_data->validName($lastName)) {
+                $this->_f3->set('lnameError', 'Last name is invalid');
+                $error = true;
+            }
+            if (!$this->_data->validEmail($email)) {
+                $this->_f3->set('emailError', 'Email is invalid');
+                $error = true;
+            }
+            if (!$this->_data->validPassword($password)) {
+                $this->_f3->set('passError', 'Password is invalid');
+                $error = true;
+            }
+
+            if (!$error) {
+                $passwordHashed = password_hash($_POST['password'], PASSWORD_DEFAULT);
+                $this->_data->createUser($firstName, $lastName, $email, $passwordHashed);
+                $this->_f3->reroute('login');
             }
         }
         $view = new Template();
@@ -173,22 +201,53 @@ class Controller
 
     function checkout()
     {
+//        $this->_f3->get('SESSION.user')->setCart($this->_data->getListings());
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $this->_f3->set('posted',true);
+            $user = $this->_f3->get('SESSION.user');
+            $error = false;
+
+            if (empty($user)) {
+                $this->_f3->set('userError','Error processing order: User not logged in');
+                $error = true;
+            }
+            if (empty($user->getCart())) {
+                $this->_f3->set('cartError','Error processing order: Empty cart');
+                $error = true;
+            }
+
+            if (!$error) {
+                $user->placeOrder($this->_data);
+                $this->_f3->get('SESSION.user')->setCart(null);
+            }
+        } else {
+            if (empty($this->_f3->get('SESSION.user'))) {
+                $this->_f3->reroute('login');
+            }
+            $cart = $this->_f3->get('SESSION.user')->getCart();
+            $total = 0;
+            foreach ($cart as $listing) {
+                $total += $listing->getPrice() * $listing->getSale();
+            }
+            $this->_f3->set('total', $total);
+        }
+        //TODO: Remove after done testing
         $view = new Template();
         echo $view->render('views/checkout.html');
     }
 
     function listingAdd()
     {
-        $code = $_POST['code'];
-        $name = $_POST['name'];
-        $brand = $_POST['brand'];
-        $price = $_POST['price'];
-        $sale = $_POST['sale'];
-        $type = $_POST['type'];
-        $listing = new Listing($code,$name,$brand,$price,null,$sale,null,$type);
-        $this->_f3->get('SESSION.user')->addListing($listing, $this->_data);
-        $view = new Template;
-        echo $view->render('views/search.html');
+//        $code = $_POST['code'];
+//        $name = $_POST['name'];
+//        $brand = $_POST['brand'];
+//        $price = $_POST['price'];
+//        $sale = $_POST['sale'];
+//        $type = $_POST['type'];
+//        $listing = new Listing($code,$name,$brand,$price,null,$sale,null,$type);
+//        $this->_f3->get('SESSION.user')->addListing($listing, $this->_data);
+//        $view = new Template;
+//        echo $view->render('views/search.html');
     }
 
     function removeListing($params)

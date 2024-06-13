@@ -128,9 +128,13 @@ function addListing() {
     $('#listings-div').load('get-listings');
 }
 
-function addToCart(code) {
-    $('cart-listings').empty();
-    $('cart-listings').load('cart', {code: code});
+function addToCart(listingCode) {
+    $('#cart-listings').empty();
+    $('#cart-listings').load('cart', {code: listingCode});
 }
 
+function emptyCart() {
+    $('#cart-listings').empty();
+    $.post('cart/empty');
+}
 

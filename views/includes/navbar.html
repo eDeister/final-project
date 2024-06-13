@@ -49,12 +49,12 @@
                     <div id="cart-listings">
                         <repeat group="{{ @SESSION.cart }}" value="{{ @listing }}">
                             <a class="dropdown-item" href="#">{{ @listing->getName() }} - {{ @listing->getBrand() }} |
-                                {{ @listing->getPrice * @listing->getSale() }}</a>
+                                {{ @listing->getAbsolutePrice }}</a>
                         </repeat>
                     </div>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item text-center" href="checkout">Checkout</a>
-                    <a class="dropdown-item text-center" href="#">Empty Cart</a>
+                    <a class="dropdown-item text-center" href="#" onclick="emptyCart()">Empty Cart</a>
                 </div>
             </div>
             <div class="dropdown">
