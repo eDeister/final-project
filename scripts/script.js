@@ -104,7 +104,6 @@ function selectAllChildFilters(filterType) {
 }
 
 function removeListing(listingCode) {
-    $('#'+listingCode+'-card').remove();
     $('#listings-div').empty();
     $.post('listing/remove-'+listingCode);
     $('#listings-div').load('get-listings');
@@ -130,11 +129,16 @@ function addListing() {
 
 function addToCart(listingCode) {
     $('#cart-listings').empty();
-    $('#cart-listings').load('cart', {code: listingCode});
+    $('#cart-listings').load('cart/add', {code: listingCode});
 }
 
 function emptyCart() {
     $('#cart-listings').empty();
     $.post('cart/empty');
+}
+
+function removeFromCart(listingCode) {
+    $('#cart-'+listingCode).remove();
+    $.post('cart/remove', {code: listingCode});
 }
 

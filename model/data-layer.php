@@ -140,13 +140,13 @@ class DataLayer
     public function removeListingDB($code)
     {
         $sql = '
-            DELETE * FROM specValLst 
+            DELETE FROM specValLst 
             WHERE lstID = (
                 SELECT lstID FROM listing 
                 WHERE lstCode = :code
             );
-            DELETE * FROM listing 
-            WHERE lstID = :code;
+            DELETE FROM listing 
+            WHERE lstCode = :code;
             ';
 
         $stmt = $this->_dbh->prepare($sql);
@@ -229,15 +229,12 @@ class DataLayer
         return $stmt->execute();
     }
 
-    //TODO: Finish writing function
     public function placeOrder($email, $listings) {
         $sql = '
             INSERT INTO orders (userID)
-            VALUES (
-                SELECT userID
-                FROM users
-                WHERE email = :email
-            );
+            SELECT userID
+            FROM users
+            WHERE email = :email;
         ';
 
         $stmt = $this->_dbh->prepare($sql);

@@ -9,9 +9,9 @@ class Admin extends User
         parent::__construct($cart, $email, $fname, $lname);
     }
 
-    function addListing($listing, $data)
+    function addListing($code, $data)
     {
-        $data->addListingDB($listing);
+        $data->addListingDB($code);
     }
 
     function removeListing($listing, $data)

@@ -72,13 +72,13 @@ class Controller
         $filters = ['code' => $code];
         $listing = $this->_data->getListings($filters);
         $this->_f3->set('listing', $listing[$code]);
-        
+
         $view = new Template();
         echo $view->render('views/listing.html');
 
     }
 
-    function cart()
+    function cartAdd()
     {
         // Fetch cart items from session
         $cart = $this->_f3->get('SESSION.user')->getCart();
@@ -87,35 +87,18 @@ class Controller
         $cart[$code] = $listing[$code];
         $this->_f3->get('SESSION.user')->setCart($cart);
         $view = new Template();
-        echo $view->render('views/cart.html');
-    }
-
-    function cartAdd()
-    {
-        $itemId = $_POST['id'];
-        // Add item to cart (session)
-        if (!isset($_SESSION['cartItems'])) {
-            $_SESSION['cartItems'] = [];
-        }
-        $_SESSION['cartItems'][] = $itemId;
-
-        // Redirect to cart page
-        $this->_f3->reroute('/cart');
+        echo $view->render('views/includes/cart.html');
     }
 
     function cartRemove()
     {
-        $itemId = $_POST['id'];
-        // Remove item from cart (session)
-        if (isset($_SESSION['cartItems'])) {
-            $index = array_search($itemId, $_SESSION['cartItems']);
-            if ($index !== false) {
-                unset($_SESSION['cartItems'][$index]);
-            }
-        }
-
-        // Redirect to cart page
-        $this->_f3->reroute('/cart');
+        // Fetch cart items from session
+        $cart = $this->_f3->get('SESSION.user')->getCart();
+        $code = $_POST['code'];
+        unset($cart[$code]);
+        $this->_f3->get('SESSION.user')->setCart($cart);
+        $view = new Template();
+        echo $view->render('views/cart.html');
     }
 
     function cartEmpty()
@@ -201,10 +184,9 @@ class Controller
 
     function checkout()
     {
-//        $this->_f3->get('SESSION.user')->setCart($this->_data->getListings());
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $this->_f3->set('posted',true);
             $user = $this->_f3->get('SESSION.user');
+            $this->_f3->set('posted',true);
             $error = false;
 
             if (empty($user)) {
@@ -223,15 +205,15 @@ class Controller
         } else {
             if (empty($this->_f3->get('SESSION.user'))) {
                 $this->_f3->reroute('login');
+            } else if (!empty($this->_f3->get('SESSION.user')->getCart())) {
+                $cart = $this->_f3->get('SESSION.user')->getCart();
+                $total = 0;
+                foreach ($cart as $listing) {
+                    $total += $listing->getPrice() * $listing->getSale();
+                }
+                $this->_f3->set('total', $total);
             }
-            $cart = $this->_f3->get('SESSION.user')->getCart();
-            $total = 0;
-            foreach ($cart as $listing) {
-                $total += $listing->getPrice() * $listing->getSale();
-            }
-            $this->_f3->set('total', $total);
         }
-        //TODO: Remove after done testing
         $view = new Template();
         echo $view->render('views/checkout.html');
     }
@@ -250,26 +232,15 @@ class Controller
 //        echo $view->render('views/search.html');
     }
 
-    function removeListing($params)
+    function listingRemove($code)
     {
-        //TODO: Uncomment when finished
-//        $this->_f3->get('SESSION.user')->removeListing($params['code'], $this->_data);
+        $this->_f3->get('SESSION.user')->removeListing($code, $this->_data);
     }
 
     function listingUpdate()
     {
         $view = new Template;
         echo $view->render('views/includes/get-listings.html');
-    }
-
-    function filterAdd()
-    {
-
-    }
-
-    function filterRemove()
-    {
-
     }
 
     function getListings()
