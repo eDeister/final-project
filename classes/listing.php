@@ -111,7 +111,7 @@ class Listing
     }
 
     /**
-     * @return string
+     * @return string Gets the listing price times the listing sale
      */
     public function getAbsolutePrice()
     {
@@ -135,15 +135,16 @@ class Listing
     }
 
     /**
-     * @return string
+     * @return string Returns the listing description
      */
+    //TODO: Populate listings with descriptions
     public function getDesc()
     {
         return $this->_desc;
     }
 
     /**
-     * @param string $desc
+     * @param string $desc Sets the listing description
      */
     public function setDesc(string $desc)
     {
@@ -151,7 +152,7 @@ class Listing
     }
 
     /**
-     * @return array
+     * @return array Gets the array of specification key/value pairs
      */
     public function getSpecs()
     {
@@ -159,7 +160,7 @@ class Listing
     }
 
     /**
-     * @param array $specs
+     * @param array $specs Set the specifications array to a new specs array
      */
     public function setSpecs(array $specs)
     {
@@ -167,8 +168,10 @@ class Listing
     }
 
     /**
-     * @param $specKey
-     * @param $specValue
+     * Add a specification key/value pairing
+     *
+     * @param string $specKey The specification key (e.g. Speaker Wattage)
+     * @param mixed $specValue The specification value (e.g. 15 (watts))
      * @return void
      */
     public function addSpec($specKey, $specValue)
@@ -177,7 +180,7 @@ class Listing
     }
 
     /**
-     * @return mixed|string
+     * @return mixed|string Gets the type of instrument (e.g. Piano)
      */
     public function getType()
     {
@@ -185,7 +188,7 @@ class Listing
     }
 
     /**
-     * @param $type
+     * @param string $type Sets the type of instrument
      * @return void
      */
     public function setType($type)
@@ -194,7 +197,7 @@ class Listing
     }
 
     /**
-     * @return mixed
+     * @return mixed Gets the timestamp when the instrument was added
      */
     public function getTimestamp()
     {
@@ -202,7 +205,7 @@ class Listing
     }
 
     /**
-     * @param mixed $timestamp
+     * @param mixed $timestamp Sets the timestamp of the listing *object*, does not alter DB
      */
     public function setTimestamp($timestamp)
     {

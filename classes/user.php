@@ -14,10 +14,12 @@ class User
     private $_lname;
 
     /**
-     * @param $cart
-     * @param $email
-     * @param $fname
-     * @param $lname
+     * Defines the default constructor for the User.
+     *
+     * @param Listing[] $cart The user's current cart contents
+     * @param string $email The user's email address
+     * @param string $fname The user's first name
+     * @param string $lname The user's last name
      */
     public function __construct($cart, $email, $fname, $lname)
     {
@@ -28,7 +30,7 @@ class User
     }
 
     /**
-     * @return mixed
+     * @return Listing[] Return the user's current cart.
      */
     public function getCart()
     {
@@ -36,7 +38,7 @@ class User
     }
 
     /**
-     * @return mixed
+     * @return string Return the user's email address.
      */
     public function getEmail()
     {
@@ -44,7 +46,7 @@ class User
     }
 
     /**
-     * @return mixed
+     * @return string Return the user's first name.
      */
     public function getFname()
     {
@@ -52,7 +54,7 @@ class User
     }
 
     /**
-     * @return mixed
+     * @return string Return the user's last name.
      */
     public function getLname()
     {
@@ -60,7 +62,7 @@ class User
     }
 
     /**
-     * @param $cart
+     * @param Listing[] $cart Set the user's cart contents.
      * @return void
      */
     public function setCart($cart)
@@ -69,7 +71,7 @@ class User
     }
 
     /**
-     * @param $email
+     * @param string $email Set the user's email.
      * @return void
      */
     public function setEmail($email)
@@ -78,7 +80,7 @@ class User
     }
 
     /**
-     * @param $fname
+     * @param string $fname Set the user's first name.
      * @return void
      */
     public function setFname($fname)
@@ -87,7 +89,7 @@ class User
     }
 
     /**
-     * @param $lname
+     * @param string $lname Set the uer's last name.
      * @return void
      */
     public function setLname($lname)

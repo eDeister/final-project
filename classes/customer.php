@@ -1,7 +1,15 @@
 <?php
 
 /**
+ * Describes a Customer on the Phrygian website.
  *
+ * Describes a Customer on the Phrygian website. Customers have a cart populated with listing, an email address,
+ * a first and last name, and an array of orders that they have placed. They may place an order, view their orders,
+ * and update their orders (when an order is placed).
+ *
+ * @author Ethan Deister
+ * @author Eugene Faison
+ * @author Abdul Rahmani
  */
 class Customer extends User
 {
