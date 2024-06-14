@@ -1,0 +1,27 @@
+<include href="views/includes/header.html"></include>
+<include href="views/includes/navbar.html"></include>
+
+<div class="container text-white justify-content-center">
+    <check if="{{ @SESSION.user instanceof Customer }}">
+        <h2 class="text-center">Your Orders:</h2>
+        <div class="d-flex justify-content-center">
+            <ul>
+                <repeat group="{{ @SESSION.user->getOrders() }}" value="{{ @order }}" counter="{{ @ctr }}">
+                    <li>Order {{ @ctr }}</li>
+                    <ul>
+                        <li>Time placed: {{ @order->getTimestamp() }}</li>
+                        <li>Items:</li>
+                            <ul>
+                                <repeat group="{{ @order->getListings() }}" value="{{ @listing }}">
+                                    <li>{{ @listing->getName() }} - {{ @listing->getBrand() }} | {{ @listing->getAbsolutePrice() }}</li>
+                                </repeat>
+                            </ul>
+                        <li>Total: {{ @total }}</li>
+                    </ul>
+                </repeat>
+            </ul>
+        </div>
+    </check>
+</div>
+
+<include href="views/includes/footer.html"></include>

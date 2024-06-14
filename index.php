@@ -79,5 +79,9 @@ $f3->route('POST /listing/update-@code', function($f3,$params) {
     $GLOBALS['con']->listingUpdate($params['code']);
 });
 
+$f3->route('GET /orders', function() {
+    $GLOBALS['con']->orders();
+});
+
 // Run fat free
 $f3->run();

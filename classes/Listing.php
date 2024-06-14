@@ -35,7 +35,7 @@ class Listing
      * @param float $sale The decimal value of the percentage off the price of the instrument
      * @param array $specs An array of the specifications of the instrument
      */
-    public function __construct($code, $name, $brand, $price, $desc, $sale=1, $specs=array(), $type, $timestamp)
+    public function __construct($code="", $name, $brand, $price, $desc="", $sale=1, $specs=array(), $type="", $timestamp="")
     {
         $this->_code = $code;
         $this->_name = $name;

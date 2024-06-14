@@ -1,6 +1,6 @@
 <repeat group="{{ @SESSION.user->getCart() }}" value="{{ @listing }}">
     <div class="form-inline" id="cart-{{ @listing->getCode()}}">
-        <button type="button" onclick="removeFromCart('{{ @listing->getCode() }}')" class="btn btn-danger btn-sm">X</button>
+        <button type="button" onclick="removeFromCart('{{ @listing->getCode() }}')" class="btn btn-danger btn-sm ms-2">X</button>
         <p class="dropdown-item mt-3">{{ @listing->getName() }} -
             {{ @listing->getBrand() }} | {{ @listing->getAbsolutePrice() }}</p>
     </div>

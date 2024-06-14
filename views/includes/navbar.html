@@ -58,8 +58,15 @@
                     <img src="images/login.jpg" alt="Account icon" id="account-icon" style="width: 30px;" class="image">
                 </button>
                 <div class="dropdown-menu" aria-labelledby="account-icon">
-                    <a class="dropdown-item text-center" href="login">Log In</a>
-                    <a class="dropdown-item text-center" href="signup">Sign Up</a>
+                    <check if="{{ empty(@SESSION.user) }}">
+                        <true>
+                            <a class="dropdown-item text-center" href="login">Log In</a>
+                            <a class="dropdown-item text-center" href="signup">Sign Up</a>
+                        </true>
+                        <false>
+                            <a class="dropdown-item text-center" href="orders">View Orders</a>
+                        </false>
+                    </check>
                 </div>
             </div>
         </div>

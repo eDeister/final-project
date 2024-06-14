@@ -257,6 +257,65 @@ class DataLayer
         }
     }
 
+    public function getOrders($email)
+    {
+        $sql = '
+            SELECT l.lstCode, l.lstName, b.brandName, l.lstPrice, l.lstSale, o.timeAdded
+            FROM listing l
+            JOIN brand b ON l.brandID = b.brandID
+            JOIN ordLst ol ON l.lstID = ol.lstID
+            JOIN orders o ON ol.ordID = o.ordID
+            JOIN users u ON o.userID = u.userID
+            WHERE  u.email = :email
+        ';
+
+        $stmt = $this->_dbh->prepare($sql);
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $orders = [];
+        if(!empty($results)) {
+            foreach ($results as $result) {
+                if (empty($orders[$result['timeAdded']])) {
+                    $orders[$result['timeAdded']] = new Order(
+                        $listings = array(
+                            new Listing(
+                                $result['lstCode'],
+                                $result['lstName'],
+                                $result['lstBrand'],
+                                $result['lstPrice'],
+                                '',
+                                $result['lstSale'],
+                                [],
+                                '',
+                                ''
+                            )
+                        ),
+                        $timestamp = $result['timeAdded']
+                    );
+                } else {
+                    $listings = $orders[$result['timeAdded']]->getListings();
+                    $listings[] = new Listing(
+                        $result['lstCode'],
+                        $result['lstName'],
+                        $result['lstBrand'],
+                        $result['lstPrice'],
+                        '',
+                        $result['lstSale'],
+                        [],
+                        '',
+                        ''
+                    );
+                    $orders[$result['timeAdded']]->setListings($listings);
+                }
+            }
+            usort($orders, function($a,$b) {
+                return $a->getTimestamp() <=> $b->getTimestamp();
+            });
+        }
+        return $orders;
+    }
+
     public function validName($name)
     {
         return preg_match('/^[a-zA-Z]+$/', $name) === 1;

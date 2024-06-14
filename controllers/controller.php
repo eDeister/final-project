@@ -218,6 +218,32 @@ class Controller
         echo $view->render('views/checkout.html');
     }
 
+    function listingRemove($code)
+    {
+        $this->_f3->get('SESSION.user')->removeListing($code, $this->_data);
+    }
+
+    function getListings()
+    {
+        $results = $this->_data->getListings();
+        $this->_f3->set('results', $results);
+        $this->_f3->set('row', 3);
+        $view = new Template();
+        echo $view->render('views/includes/get-listings.html');
+    }
+
+    function orders()
+    {
+        $user = $this->_f3->get('SESSION.user');
+        $orders = $this->_data->getOrders($user->getEmail());
+        $user->setOrders($orders);
+        $view = new Template();
+        echo $view->render('views/orders.html');
+    }
+
+
+    //TODO: Currently not in use. These functions are intended for admin control HTTP requests.
+
     function listingAdd()
     {
 //        $code = $_POST['code'];
@@ -232,23 +258,9 @@ class Controller
 //        echo $view->render('views/search.html');
     }
 
-    function listingRemove($code)
-    {
-        $this->_f3->get('SESSION.user')->removeListing($code, $this->_data);
-    }
-
     function listingUpdate()
     {
         $view = new Template;
-        echo $view->render('views/includes/get-listings.html');
-    }
-
-    function getListings()
-    {
-        $results = $this->_data->getListings();
-        $this->_f3->set('results', $results);
-        $this->_f3->set('row', 3);
-        $view = new Template();
         echo $view->render('views/includes/get-listings.html');
     }
 }
