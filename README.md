@@ -1,7 +1,11 @@
 # Phrygian
 A music eCommerce website where customers can view various instruments, add them to a cart, place an order, and view their past orders. Admins have various controls available to them that users do not. Currently, Admins can only remove listings from the database, but there is code in the works to allow them to add a listing and update a listing. Customers are able to search for the name of an instrument or sort by price. 
 
-https://edeister.greenriverdev.com/328-final-project/final-project/
+https://edeister.greenriverdev.com/328_2/final-project/
+
+Admin login:
+test@phrygian.com
+This1!test
 
 # Authors
 Ethan Deister
