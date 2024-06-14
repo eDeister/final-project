@@ -1,10 +1,17 @@
 <?php
 
+/**
+ *
+ */
 class Order
 {
     private $_listings;
     private $_timestamp;
 
+    /**
+     * @param $listings
+     * @param $timestamp
+     */
     public function __construct($listings, $timestamp)
     {
         $this->_listings = $listings;

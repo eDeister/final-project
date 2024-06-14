@@ -13,7 +13,13 @@ class User
     private $_fname;
     private $_lname;
 
-    public function __construct($cart,$email,$fname,$lname)
+    /**
+     * @param $cart
+     * @param $email
+     * @param $fname
+     * @param $lname
+     */
+    public function __construct($cart, $email, $fname, $lname)
     {
         $this->_cart = $cart;
         $this->_email = $email;
@@ -21,35 +27,69 @@ class User
         $this->_lname = $lname;
     }
 
+    /**
+     * @return mixed
+     */
     public function getCart()
     {
         return $this->_cart;
     }
+
+    /**
+     * @return mixed
+     */
     public function getEmail()
     {
         return $this->_email;
     }
+
+    /**
+     * @return mixed
+     */
     public function getFname()
     {
         return $this->_fname;
     }
+
+    /**
+     * @return mixed
+     */
     public function getLname()
     {
         return $this->_lname;
     }
 
+    /**
+     * @param $cart
+     * @return void
+     */
     public function setCart($cart)
     {
         $this->_cart = $cart;
     }
+
+    /**
+     * @param $email
+     * @return void
+     */
     public function setEmail($email)
     {
         $this->_email = $email;
     }
+
+    /**
+     * @param $fname
+     * @return void
+     */
     public function setFname($fname)
     {
         $this->_fname = $fname;
     }
+
+    /**
+     * @param $lname
+     * @return void
+     */
     public function setLname($lname)
     {
         $this->_lname = $lname;

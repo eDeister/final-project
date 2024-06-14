@@ -9,7 +9,9 @@ session_start();
 $f3 = Base::Instance();
 $con = new Controller($f3);
 
-// Define a default route
+//  === Routes for basic user interaction
+
+// Define a default route for the home page
 $f3->route('GET /', function() {
     $GLOBALS['con']->home();
 });
@@ -19,49 +21,61 @@ $f3->route('GET /about', function() {
     $GLOBALS['con']->about();
 });
 
-// Define a route for any particular listing
-$f3->route('GET /listing-@code', function($f3,$params) {
-    $GLOBALS['con']->listing($params['code']);
+// Define a route for logging in
+$f3->route('GET|POST /login', function() {
+    $GLOBALS['con']->login();
 });
+
+// Define a route for signing up
+$f3->route('GET|POST /signup', function() {
+    $GLOBALS['con']->signup();
+});
+
+//  === Routes for searching and viewing listings
 
 // Define a route for the search page
 $f3->route('GET|POST /search', function() {
     $GLOBALS['con']->search();
 });
 
-$f3->route('POST /cart/add', function() {
-    $GLOBALS['con']->cartAdd();
-});
-
-$f3->route('POST /cart/remove', function() {
-    $GLOBALS['con']->cartRemove();
-});
-
-$f3->route('POST /cart/empty', function() {
-    $GLOBALS['con']->cartEmpty();
-});
-
-// Define a route for login
-$f3->route('GET|POST /login', function() {
-    $GLOBALS['con']->login();
-});
-
-// Define a route for signup
-$f3->route('GET|POST /signup', function() {
-    $GLOBALS['con']->signup();
-});
-
-// Define a route for checkout
-$f3->route('GET|POST /checkout', function() {
-    $GLOBALS['con']->checkout();
-});
-
-// Define a route to get listings
+// Define a route to get listings based on filters and display them as bootstrap cards
 $f3->route('GET|POST /get-listings', function() {
     $GLOBALS['con']->getListings();
 });
 
-//== Routes for Admin Controls
+// Define a route for displaying one listing
+$f3->route('GET /listing-@code', function($f3,$params) {
+    $GLOBALS['con']->listing($params['code']);
+});
+
+//  === Routes for interacting with the cart and placing/viewing orders
+
+// Define a route for adding an items to the cart via jQuery
+$f3->route('POST /cart/add', function() {
+    $GLOBALS['con']->cartAdd();
+});
+
+// Define a route for removing an item from the cart via jQuery
+$f3->route('POST /cart/remove', function() {
+    $GLOBALS['con']->cartRemove();
+});
+
+// Define a route for emptying the cart via jQuery
+$f3->route('POST /cart/empty', function() {
+    $GLOBALS['con']->cartEmpty();
+});
+
+// Define a route for checking out
+$f3->route('GET|POST /checkout', function() {
+    $GLOBALS['con']->checkout();
+});
+
+// Define a route for viewing orders
+$f3->route('GET /orders', function() {
+    $GLOBALS['con']->orders();
+});
+
+//  === Routes for Admin Controls
 //TODO: Make sure all admin controls are functional
 
 // Define a route to add a listing
@@ -79,9 +93,6 @@ $f3->route('POST /listing/update-@code', function($f3,$params) {
     $GLOBALS['con']->listingUpdate($params['code']);
 });
 
-$f3->route('GET /orders', function() {
-    $GLOBALS['con']->orders();
-});
 
 // Run fat free
 $f3->run();

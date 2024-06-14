@@ -110,6 +110,9 @@ class Listing
         $this->_price = $price;
     }
 
+    /**
+     * @return string
+     */
     public function getAbsolutePrice()
     {
         return number_format(($this->_price * $this->_sale),2);
@@ -173,11 +176,18 @@ class Listing
         $this->_specs[$specKey] = $specValue;
     }
 
+    /**
+     * @return mixed|string
+     */
     public function getType()
     {
         return $this->_type;
     }
 
+    /**
+     * @param $type
+     * @return void
+     */
     public function setType($type)
     {
         $this->_type = $type;
